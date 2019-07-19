@@ -19,7 +19,7 @@ export class AuthGuardService implements CanActivate {
         return true;
       }
 
-      this.navController.navigateRoot('/authentication/home');
+      this.navController.navigateRoot('/authentication/login');
       return false;
     }
 }

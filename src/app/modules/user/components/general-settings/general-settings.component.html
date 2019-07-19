@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons>
+      <ion-button (click)="back()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-title>General Settings</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="full">
+    <ion-text slot="start">Approval Type</ion-text>
+    <ion-select slot="end">
+      <ion-select-option>Manual</ion-select-option>
+      <ion-select-option>Automatic</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-text slot="start">Email Nofification Enabled</ion-text>
+    <ion-toggle slot="end"></ion-toggle>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-text slot="start">SMS Nofification Enabled</ion-text>
+    <ion-toggle slot="end"></ion-toggle>
+  </ion-item>
+</ion-content>

@@ -1,9 +1,10 @@
+import { GetService } from './../../../../core/services/get.service';
 import { ModalController } from '@ionic/angular';
 import { LocationService } from './../../../../core/services/location.service';
 import { MapsAPILoader } from '@agm/core';
 import { Component, OnInit } from '@angular/core';
-import { LogService } from 'src/app/core/services/log.service';
 import { WorkPlaceDTO } from 'src/app/api/models';
+import { PostService } from 'src/app/core/services/post.service';
 
 @Component({
   selector: 'app-add-workplace-modal',
@@ -12,80 +13,100 @@ import { WorkPlaceDTO } from 'src/app/api/models';
 })
 export class AddWorkplaceModalComponent implements OnInit {
 
-  searchTerm: string;
-  place: any;
-  values: any;
-  clinicName: string;
+  excludes: string[] = [];
+
+  did: number;
+
+  searchLocation = '';
+
+  searchClinic = '';
+
+  selectedLocation: any;
+
+  locationSuggetions: any[] = [];
+
+  firstTime = true;
 
   workPlace: WorkPlaceDTO = {};
 
+  updateMode = false;
+
+  nameUpdatedStatus = false;
+
   constructor(
-    private locationService: LocationService,
-    private mapsAPILoader: MapsAPILoader,
     private modalController: ModalController,
-    private log: LogService
-  ) { }
+    private postService: PostService,
+    private locationService: LocationService
+  ) {}
 
   ngOnInit() {
-    if (this.workPlace.id !== undefined) {
-
-        this.searchTerm = this.workPlace.locationName;
-        this.clinicName = this.workPlace.name;
+    if(this.updateMode === true) {
+      this.searchClinic = this.workPlace.name;
+      this.searchLocation =  this.workPlace.locationName;
+      this.selectedLocation = {};
     }
   }
 
-  select(place: any) {
-    console.log(place);
-    this.place = place;
-    this.searchTerm = this.place.description;
-    this.values = undefined;
-  }
-
-  onSearch() {
-
-    this.log.log('Starting Search');
-
-    this.values = [];
-
-    if (this.searchTerm === ' ' || this.searchTerm === null) {
-      return;
-    }
-
-    this.locationService.getPredictions(this.searchTerm).subscribe(res => {
-      this.values = res;
+  search() {
+    this.firstTime = false;
+    this.locationService.getPredictions(this.searchLocation)
+    .subscribe(locationData => {
+      this.locationSuggetions = locationData;
     });
+    this.remove();
+  }
+
+  save() {
+    if(this.updateMode === false) {
+      console.log('Adding Wokplace');
+      this.locationService.getGeoFromPlace(this.selectedLocation.description,
+        (results, status) => {
+          const latitude = results[0].geometry.location.lat();
+          const longitude = results[0].geometry.location.lng();
+          const latLong = latitude + ',' + longitude;
+          this.postService.addWorkplace(this.searchClinic , latLong , this.searchLocation , this.did);
+          this.modalController.dismiss();
+        });
+    } else {
+      console.log('Updating Wokplace');
+      let description = this.selectedLocation.description;
+      if(this.selectedLocation === undefined) {
+        description = this.workPlace.locationName;
+      }
+      console.log(description);
+      
+      this.locationService.getGeoFromPlace(description,
+        (results, status) => {
+          const latitude = results[0].geometry.location.lat();
+          const longitude = results[0].geometry.location.lng();
+          const latLong = latitude + ',' + longitude;
+          this.workPlace.name = this.searchClinic;
+          this.workPlace.location = latLong;
+          this.workPlace.locationName = this.searchLocation;
+          this.postService.updateWorkplace(this.workPlace);
+          this.modalController.dismiss();
+        });
+    }
+  }
+
+  select(locationData: any) {
+    this.selectedLocation = locationData;
+    this.searchLocation = locationData.description;
+    console.log(this.searchLocation);
+  }
+
+
+  nameUpdated() {
+    this.nameUpdatedStatus = true;
+  }
+
+  remove() {
+    console.log('removed');
+    this.selectedLocation = undefined;
   }
 
   cancel() {
     this.modalController.dismiss();
-  }
-
-  dismiss() {
-
-    if (this.workPlace.id === undefined) {
-      const workplace: WorkPlaceDTO = {};
-      workplace.name = this.clinicName;
-      workplace.locationName = this.searchTerm;
-      console.log(workplace);
-      this.locationService.geocodeAddress()
-      .then(geocoder => {
-          geocoder.geocode({placeId: this.place.place_id}, (results, status) => {
-          if (status !== 'OK') {
-            console.log('Geocoder failed due to: ' + status);
-            return;
-          }
-
-          const latlon = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
-          console.log('Lat is inside geo ' + results[0].geometry.location.lat());
-          console.log('Lon is inside geo ' + results[0].geometry.location.lng());
-
-          workplace.location = latlon.toString();
-          console.log('Workplace' , workplace);
-          this.modalController.dismiss(workplace);
-
-          });
-      });
-    }
   }
 
 }

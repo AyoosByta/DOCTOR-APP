@@ -1,48 +1,44 @@
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule, MatFormFieldControl } from '@angular/material/form-field';
+import { AddSessionModalComponent } from './add-session-modal/add-session-modal.component';
+import { SessionComponent } from './session/session.component';
+import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AddWorkplaceModalComponent } from './add-workplace-modal/add-workplace-modal.component';
 import { AddQualificationModalComponent } from './add-qualification-modal/add-qualification-modal.component';
 import { CustomInputComponent } from './../../../shared/custom-input/custom-input.component';
-import { MatCommonModule } from '@angular/material/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { ImageSelectorComponent } from './../../../shared/image-selector/image-selector.component';
-import { ProfileReviewComponent } from './profile-review/profile-review.component';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular/';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileDetailsComponent } from './profile-details/profile-details.component';
-import { ProfileImgComponent } from './profile-img/profile-img.component';
-import { ProfileHeaderComponent } from './profile-header/profile-header.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { RatingComponent } from 'src/app/shared/rating/rating.component';
-import { SessionSaveComponent } from './session-save/session-save.component';
+import { ProfileQualificationsComponent } from './profile-qualifications/profile-qualifications.component';
+import { ProfileWorkplacesComponent } from './profile-workplaces/profile-workplaces.component';
+import { NgbDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomDatePickerComponent } from 'src/app/shared/custom-date-picker/custom-date-picker.component';
+import { PaymentSettingsComponent } from './payment-settings/payment-settings.component';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    MatToolbarModule,
-    MatCommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    SharedModule
-  ],
+    SharedModule,
+    NgbModule
+ ],
   exports: [
-    ProfileDetailsComponent , ProfileImgComponent , ProfileHeaderComponent , 
-    ProfileReviewComponent , AddQualificationModalComponent , AddWorkplaceModalComponent,
-    SessionSaveComponent
+    ProfileDetailsComponent , ProfileQualificationsComponent , ProfileWorkplacesComponent,
+    AddQualificationModalComponent , AddWorkplaceModalComponent,
+    GeneralSettingsComponent, PaymentSettingsComponent,
+    SessionComponent , AddSessionModalComponent
   ],
   declarations: [
-    ProfileDetailsComponent , ProfileImgComponent , ProfileHeaderComponent , 
-    ProfileReviewComponent , AddQualificationModalComponent , AddWorkplaceModalComponent,
-    SessionSaveComponent
+    ProfileDetailsComponent , ProfileQualificationsComponent , ProfileWorkplacesComponent,
+    AddQualificationModalComponent , AddWorkplaceModalComponent,
+    GeneralSettingsComponent, PaymentSettingsComponent,
+    SessionComponent , AddSessionModalComponent
   ],
-  entryComponents: [ ImageSelectorComponent , RatingComponent , CustomInputComponent , AddQualificationModalComponent , AddWorkplaceModalComponent]
+  entryComponents: [ ImageSelectorComponent , RatingComponent , CustomInputComponent , CustomDatePickerComponent ,
+    AddSessionModalComponent ]
 })
 export class ComponentsModule { }

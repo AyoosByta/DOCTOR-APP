@@ -11,26 +11,16 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
-          }
+          },
         ]
       },
       {
-        path: 'session',
-        children: [
-          {
-            path: '',
-            loadChildren: '../user/pages/session/session.module#SessionPageModule'
-          }
-        ]
+        path: 'settings',
+        loadChildren: '../user/pages/settings/settings.module#SettingsPageModule' 
       },
       {
-        path: 'review',
-        children: [
-          {
-            path: '',
-            loadChildren: '../user/pages/review/review.module#ReviewPageModule'
-          }
-        ]
+        path: 'sessions',
+        loadChildren: '../user/pages/sessions/sessions.module#SessionsPageModule' 
       },
       {
         path: '',

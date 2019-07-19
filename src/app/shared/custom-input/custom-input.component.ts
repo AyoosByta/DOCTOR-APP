@@ -20,8 +20,11 @@ const noop = () => {
 })
 export class CustomInputComponent  implements ControlValueAccessor {
 
+  editMode = false;
   // The internal data model
   private innerValue: any = '';
+
+  private oldValue: any = '';
 
   // Placeholders for the callbacks which are later provided
   // by the Control Value Accessor
@@ -33,11 +36,30 @@ export class CustomInputComponent  implements ControlValueAccessor {
   @Input() labelName: string;
   @Input() defaultValue: string;
 
+  @Output() saveEvent = new EventEmitter<any>();
+
   @ViewChild('customInput') customInput: IonInput;
 
+  save() {
+
+    this.editMode = false;
+    this.saveEvent.emit(this.value);
+  }
 
   setFocus() {
-    this.customInput.setFocus();
+    if(this.editMode === true) {
+      this.editMode = false;
+      this.save();
+    } else {
+      this.oldValue = this.defaultValue;
+      this.editMode = true;
+      this.customInput.setFocus();
+    }
+  }
+
+  close() {
+    this.value= this.oldValue;
+    this.editMode = false;
   }
 
   constructor() { }

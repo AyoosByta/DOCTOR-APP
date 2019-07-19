@@ -1,141 +1,98 @@
-import { LocalStorageService } from './local-storage.service';
 import { QualificationDTO } from './../../api/models/qualification-dto';
-import { WorkPlaceDTO } from 'src/app/api/models';
-import { LogService } from './log.service';
-import { KeycloakService } from './keycloak.service';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { WorkPlaceDTO, SessionInfoDTO } from 'src/app/api/models';
 import { DoctorDTO } from './../../api/models/doctor-dto';
 import { Injectable } from '@angular/core';
-import { QueryResourceService } from 'src/app/api/services';
+import { QueryResourceService , CommandResourceService} from 'src/app/api/services';
+
+// TODO: Session Create/Retrieve/GET
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-
-
   constructor(
     private queryResourceService: QueryResourceService,
-    private localStorage: LocalStorageService ,
-    private log: LogService
+    private commandResourceService: CommandResourceService
   ) {}
 
-  /**
-   *  Get the current Doctor details from Doctor Microservice
-   *  Using Keycloak username
-   */
-  getCurrentDoctorDetails(username: string , func) {
+  // Create Methods
 
-    this.log.log('Getting Doctor Details From Doctor Micro Service using id' , username);
-
-    return this.queryResourceService
-    .findDoctorUsingGETResponse(username)
-    .subscribe(func);
+  createDoctor(doctor: DoctorDTO) {
+    return this.commandResourceService.createDoctorUsingPOST(doctor);
   }
 
-  /**
-   *  Get the current Doctor Workplaces from Doctor Microservice
-   *  Using Doctor id
-   */
-  getCurrentDoctorWorkPlaces(username: string , func) {
-
-    this.log.log('Getting Doctor Workplaces From Doctor Micro Service using id' , username);
-
-    return this.queryResourceService.findWorkPlaceUsingGET({searchTerm: username + ''})
-      .subscribe(func);
+  createQualification(name, did) {
+    const qualification: QualificationDTO = {};
+    qualification.doctorId = did;
+    qualification.qualification = name;
+    return this.commandResourceService.createQualificationUsingPOST(
+      qualification
+    );
   }
 
-  /**
-   *  Get the current Doctor Qualification from Doctor Microservice
-   *  Using Doctor id
-   */
-  getCurrentDoctorQualification(username: string , func) {
-
-    this.log.log('Getting Doctor Qualifications From Doctor Micro Service using id' , username);
-
-    this.queryResourceService.findAllQualificationUsingGET({searchTerm: username + ''})
-      .subscribe(func);
+  createWorkplace(name, location, locationName, did) {
+    const workplace: WorkPlaceDTO = {};
+    workplace.doctorId = did;
+    workplace.name = name;
+    workplace.locationName = locationName;
+    workplace.location = location;
+    return this.commandResourceService.createWorkPlaceUsingPOST(workplace);
   }
 
-
-  getCurrentSessions(username: string , workplaceId: number ,  func) {
-    this.log.log('Getting Doctor Sessions From Doctor Micro Service using id' , username);
-
-    this.queryResourceService
-    .findAllSesionInfoByDoctorsWorkPlaceUsingGET({
-      workPlaceId: workplaceId,
-      doctorId: username
-    })
-    .subscribe(func);
-  }
-
-  updateCurrentSessions(func) {
-    this.localStorage.getItem('doctor')
-    .subscribe(doc => {
-      this.localStorage.getItem('workplaces')
-      .subscribe(workplaces => {
-        for (let workplace of JSON.parse(workplaces)) {
-          console.log(workplace);
-          this.queryResourceService.findAllSesionInfoByDoctorsWorkPlaceUsingGET(
-            {doctorId: JSON.parse(doc).doctorId , workPlaceId: workplace.id})
-          .subscribe(
-            sessions => {
-              console.log('Updating Sessions for workplace ' , workplace.id , 'GOT ' , sessions);
-              this.localStorage.setItem('sessions' + workplace.id , JSON.stringify(sessions));
-          },err=>{
-            this.localStorage.setItem('sessions' + workplace.id , JSON.stringify([]));
-          });
-        }
-        func();
-      });
-    });
-  }
-  /**
-   *  Update the Observalble for Doctor
-   *  Using Keycloak username
-   *  Just Calls the Above function
-   */
-  updateCurrentDoctorDetails(username: string) {
-
-      this.queryResourceService.findDoctorUsingGETResponse(username)
-      .subscribe(doc => {
-        this.log.log('Getting Doctor Details From Doctor Micro Service using id' , username);
-        this.localStorage.setItem('doctor' , JSON.stringify(doc.body));
-      });
-
-  }
-
-  /**
-   *  Update the Observalble for Workplaces
-   *  Using doctor id
-   *  Just Calls the Above function
-   */
-  updateCurrentDoctorWorkPlaces() {
-    this.localStorage.getItem('doctor')
-    .subscribe(doc => {
-      console.log('Geting Doctor iD' , JSON.parse(doc).doctorId);
-     this.queryResourceService.findWorkPlaceUsingGET({searchTerm: JSON.parse(doc).doctorId + ''})
-     .subscribe(workplaces => {
-       this.localStorage.setItem('workplaces' , JSON.stringify(workplaces));
-       this.updateCurrentSessions(function(){});
-     });
+  createSessions(fromTime: number , toTime: number , weekday: number , wid: number , monthList: []) {
+    const sessionInfo: SessionInfoDTO = {};
+    sessionInfo.fromTime = fromTime;
+    sessionInfo.toTime = toTime;
+    sessionInfo.weekDay = weekday;
+    sessionInfo.workPlaceId = wid;
+    return this.commandResourceService.createSessionInfoUsingPOST({
+      monthList: [1, 2, 3],
+      sessionInfoDTO: [sessionInfo]
     });
   }
 
-  /**
-   *  Update the Observalble for Qualification
-   *  Using doctor id
-   *  Just Calls the Above function
-   */
-  updateCurrentDoctorQualifications() {
-   this.localStorage.getItem('doctor')
-   .subscribe(doc => {
-     console.log(JSON.parse(doc).doctorId);
-    this.queryResourceService.findAllQualificationUsingGET(JSON.parse(doc).doctorId)
-    .subscribe(qualifications => {
-      console.log('Got Qualifications' , qualifications);
-      this.localStorage.setItem('qualifications' , JSON.stringify(qualifications));
-    })
-   })
+  // Update methods
+
+  updateDoctor(doctor: DoctorDTO) {
+    return this.commandResourceService.updateDoctorUsingPUT(doctor);
+  }
+
+  updateWorkplace(workplace: WorkPlaceDTO) {
+    return this.commandResourceService.updateWorkPlaceUsingPUT(workplace);
+  }
+
+  // Delete Methods
+
+  deleteQualification(id) {
+    return this.commandResourceService.deleteQualificationUsingDELETE(id);
+  }
+
+  deleteWorkplace(id) {
+    return this.commandResourceService.deleteWorkPlaceUsingDELETE(id);
+  }
+
+  // Get Methods
+
+  getDoctorDetails(username: string) {
+    return this.queryResourceService.findDoctorUsingGET(username);
+  }
+
+  getDoctorQualifications(username: string) {
+    return this.queryResourceService.findAllQualificationUsingGET({
+      searchTerm: username
+    });
+  }
+
+  getDoctorWorkplaces(username: string) {
+    return this.queryResourceService.findWorkPlaceUsingGET({
+      searchTerm: username
+    });
+  }
+
+  getDoctorSessions(username: string , wid: number) {
+    return this.queryResourceService.findAllSesionInfoByDoctorsWorkPlaceUsingGET({
+      doctorId: username,
+      workPlaceId: wid
+    });
   }
 }

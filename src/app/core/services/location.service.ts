@@ -76,16 +76,10 @@ export class LocationService implements OnInit {
     return await this.geocoder;
   }
 
-  getGeoFromPlace(description) {
+  getGeoFromPlace(description , callback) {
     const geocoder = new google.maps.Geocoder;
 
-    geocoder.geocode({ address: description }, (results, status) => {
-        // var latitude = results[0].geometry.location.lat();
-        // var longitude = results[0].geometry.location.lng();
-        // console.log("lat: " + latitude + ", long: " + longitude);
-
-        console.log(results);
-      });
+    return geocoder.geocode({ address: description },callback);
   }
 
 

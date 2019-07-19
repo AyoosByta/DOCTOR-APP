@@ -1,42 +1,47 @@
-<ion-header no-border>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button routerLink="/authentication/home">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
- <ion-content>
-   <ion-grid [ngClass]="{'full': validating=== true}" >
-     <ion-row>
-        <img [ngClass]="{'profile': validating=== true}"   src="/assets/doctor.png"/>
-     </ion-row>
-     <ion-row *ngIf="!validating" class="mg-top-20">
-       <ion-col size="12" text-center>
-          <mat-form-field appearance="legacy" class="full-width">
-              <mat-label>Username</mat-label>
-              <input [(ngModel)]="username"  matInput placeholder="username">
-            </mat-form-field>    
-       </ion-col>
-       <ion-col size="12"  text-center>
-          <mat-form-field  class="full-width">
-              <input matInput [(ngModel)]="password"  placeholder="Enter your password" [type]="hide ? 'text' : 'password'">
-              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </mat-form-field>    
-        </ion-col>
-        <ion-col size="12"  text-center>
-            <button mat-raised-button (click)="authenticate()" color="primary" class="full-width">Log In</button>
-        </ion-col>
-     </ion-row>
-     <ion-row margin *ngIf="!validating">
-       <ion-col size="12" text-center>
-         <ion-text>
-           <h5>Don't have a account ?
-             <p (click)="navigate(registerPage)">register</p>
-           </h5>
-         </ion-text>
-       </ion-col>
-     </ion-row>
-   </ion-grid>
- </ion-content>
+
+<ion-content color="secondary">
+
+    <form #form="ngForm">
+      <ion-grid padding>
+          <ion-row class="logo">
+              <!--Logo-->      
+            </ion-row>
+        <ion-row margin >
+          <ion-col>
+            <ion-item lines="none">
+              <!--Username Field-->
+                <ion-label position="floating">Username</ion-label>
+                <ion-input type="text" name="username" [(ngModel)]="username" required></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row margin>
+            <ion-col>
+              <ion-item lines="none">
+                <!--Password Field-->
+                  <ion-label position="floating">Password</ion-label>
+                  <ion-input type="password" name="password" [(ngModel)]="password" required></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row margin>
+            <ion-col>
+              <!--Login Button-->
+              <ion-button [disabled]="form.invalid" (click)="authenticate()" expand="block" class="custom">Login</ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row >
+            <ion-col text-center>
+              <ion-text>
+                <span>
+                  <p>Don' have a Account ?</p>&nbsp; 
+                   <!--Register Link / Button-->
+                  <p (click)="registerPage()">Register</p>
+                </span>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    </form>
+
+</ion-content>

@@ -8,10 +8,6 @@
     background: white;
 }
 
-mat-toolbar-row {
-    flex-direction: row-reverse;
-    padding: 10px;
-}
 
 ion-badge {
     position: absolute;
@@ -26,10 +22,4 @@ ion-badge {
     text-align: center;
     justify-content: center;
     padding: 3px;
-}
-
-.notification-div {
-    display: flex;
-    position: relative;
-    justify-content: center;
 }

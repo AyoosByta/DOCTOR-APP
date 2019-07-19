@@ -6,15 +6,6 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'home',
-        children: [
-          {
-            path: '',
-            loadChildren: '../authentication/pages/home/home.module#HomePageModule'
-          }
-        ]
-      },
-      {
         path: 'login',
         children: [
           {
@@ -35,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/authentication/home',
+        redirectTo: '/authentication/login',
         pathMatch: 'full'
       }
     ],

@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons>
+      <ion-button (click)="back()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-title>Payment Settings</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-grid no-padding>
+  <ion-row class="vertical-align-center">
+    <ion-col class="pd-15" size="10">
+      <ion-text>Currency</ion-text>
+    </ion-col>
+    <ion-col size="2">
+      <ion-input type="text" placeholder="Exmp"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row class="vertical-align-center">
+    <ion-col class="pd-15" size="10">
+      <ion-text>Amount</ion-text>
+    </ion-col>
+    <ion-col size="2">
+      <ion-input type="number" placeholder="0.00"></ion-input>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+</ion-content>

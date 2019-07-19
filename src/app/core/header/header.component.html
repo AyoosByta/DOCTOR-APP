@@ -1,20 +1,18 @@
-<mat-toolbar color="primary">
+<ion-toolbar color="secondary" *ngIf="doctor != undefined">
+  <ion-avatar slot="end" *ngIf="doctor.image != null" (click)="profilePage()">
+    <img [src]="'data:' +  doctor.imageContentType
+    + ';base64,' + doctor.image
+    ">
+  </ion-avatar>
 
-  <mat-toolbar-row >
+  <ion-icon class="header-icon" name="settings" slot="start" (click)="settingsPage()"></ion-icon>
+  <ion-icon slot="end" *ngIf="doctor.image == null" (click)="profilePage()" class="header-icon" name="contact">
+  </ion-icon>
 
-        <ion-avatar *ngIf="profileImage"  class="header-icon profile-icon" (click)="navigate(profilePage)">
-            <img [src]="'data:' +  profileImageType
-            + ';base64,' + profileImage
-            "> 
-        </ion-avatar>
+  <div class="notification-div" slot="end">
+    <ion-icon name="notifications" class="header-icon ion-margin-horizontal" >
+    </ion-icon>
+    <ion-badge color="danger">45</ion-badge>
+  </div>
 
-        <ion-icon *ngIf="!profileImage" (click)="navigate(profilePage)" class="header-icon" name="contact"></ion-icon>
-
-        <div class="notification-div">
-            <ion-icon name="notifications" class="header-icon ion-margin-horizontal" (click)="navigate(notificationPage)"></ion-icon>
-            <ion-badge color="danger">45</ion-badge>
-        </div>
-
-  </mat-toolbar-row>
-
-</mat-toolbar>
+</ion-toolbar>

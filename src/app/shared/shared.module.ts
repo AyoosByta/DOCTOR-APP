@@ -1,3 +1,4 @@
+import { CustomDatePickerComponent } from './custom-date-picker/custom-date-picker.component';
 import { ExpandableComponent } from './expandable/expandable.component';
 import { Camera } from '@ionic-native/camera/ngx';
 import { NgModule } from '@angular/core';
@@ -18,12 +19,14 @@ import { CustomInputComponent } from './custom-input/custom-input.component';
     ImageSelectorComponent,
     RatingComponent,
     CustomInputComponent,
+    CustomDatePickerComponent,
     ExpandableComponent
   ],
   exports: [
       ImageSelectorComponent,
       RatingComponent,
       CustomInputComponent,
+      CustomDatePickerComponent,
       ExpandableComponent
   ],
   providers:[

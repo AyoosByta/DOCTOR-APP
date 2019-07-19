@@ -9,12 +9,8 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 
-h1,h2,h3,h4,h5,h6 {
-    margin: 0px;
-}
 
 .vertical-align-center {
 
@@ -24,41 +20,29 @@ h1,h2,h3,h4,h5,h6 {
     height: 100%;
 }
 
-ion-loading.loading {
-  .loading-wrapper {
-      background: transparent;
-      box-shadow: none;
-  
-      .spinner-crescent circle {
-        stroke-width: 8px;
-      }
-   }
-}
-
-
 ion-modal.half-height {
 
-  &.bottom {
-      align-items: flex-end;
+    &.bottom {
+        align-items: flex-end;
+    }
+  
+    --height: 51vw;;
+  
+    .modal-wrapper {
+  
+        position: absolute;
+        bottom: 0%;
+    }
+  
+    .ion-page {
+        position: relative;
+        display: block;
+        contain: content;
+  
+        .inner-content {
+            max-height: 80vh;
+            overflow: auto;
+            padding: 10px;
+        }
+    }
   }
-
-  --height: 51vw;;
-
-  .modal-wrapper {
-
-      position: absolute;
-      bottom: 0%;
-  }
-
-  .ion-page {
-      position: relative;
-      display: block;
-      contain: content;
-
-      .inner-content {
-          max-height: 80vh;
-          overflow: auto;
-          padding: 10px;
-      }
-  }
-}

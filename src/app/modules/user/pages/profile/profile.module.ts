@@ -1,7 +1,6 @@
-import { ProfileReviewComponent } from './../../components/profile-review/profile-review.component';
-import { ProfileHeaderComponent } from './../../components/profile-header/profile-header.component';
+import { AddWorkplaceModalComponent } from './../../components/add-workplace-modal/add-workplace-modal.component';
+import { AddQualificationModalComponent } from './../../components/add-qualification-modal/add-qualification-modal.component';
 import { ProfileDetailsComponent } from './../../components/profile-details/profile-details.component';
-import { ProfileImgComponent } from './../../components/profile-img/profile-img.component';
 import { ComponentsModule } from './../../components/components.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -28,6 +27,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [ProfilePage],
-  entryComponents: [ProfileImgComponent , ProfileDetailsComponent , ProfileHeaderComponent , ProfileReviewComponent]
+  entryComponents: [ProfileDetailsComponent , AddQualificationModalComponent , AddWorkplaceModalComponent]
 })
 export class ProfilePageModule {}

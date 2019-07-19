@@ -18,29 +18,22 @@ const routes: Routes = [
       },
 
       {
+        path: 'profile',
+        children: [
+          {
+            path: '',
+            loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
+          }
+        ]
+      },
+      {
         path: 'appointments',
         children: [
           {
             path: '',
-            loadChildren: '../home/pages/appointments/appointments.module#AppointmentsPageModule'
+            loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
           }
         ]
-      },
-
-      {
-        path: 'consultation',
-        children: [
-          {
-            path: '',
-            loadChildren: '../home/pages/consultation/consultation.module#ConsultationPageModule'
-          }
-        ]
-      },
-
-      {
-        path: '',
-        redirectTo: '/home/dashboard',
-        pathMatch: 'full'
       }
     ],
   },

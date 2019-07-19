@@ -1,5 +1,7 @@
-import { NavController } from '@ionic/angular';
+import { DoctorDTO } from 'src/app/api/models';
 import { Component, OnInit, Input } from '@angular/core';
+import { Util } from '../util/util';
+import { GetService } from '../services/get.service';
 
 @Component({
   selector: 'app-header',
@@ -8,20 +10,37 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  @Input() profileImage;
-  @Input() profileImageType;
-  @Input() profilePage: string;
-
-
-  @Input() notificationPage: string;
+  doctor: DoctorDTO;
 
   constructor(
-    private navController: NavController
+    private util: Util,
+    private getService: GetService
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getDoctor();
+  }
 
-  navigate(path: string) {
-    this.navController.navigateForward(path);
+  profilePage() {
+    this.util.navigateProfile();
+  }
+
+  settingsPage() {
+    this.util.navigateSettings();
+  }
+
+  getDoctor() {
+    this.util.createLoader()
+    .then(loading => {
+      loading.present();
+      this.getService.getDoctor()
+      .subscribe(doctor => {
+        this.doctor = doctor;
+        loading.dismiss();
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
 }

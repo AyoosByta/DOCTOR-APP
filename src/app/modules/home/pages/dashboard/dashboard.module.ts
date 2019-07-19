@@ -1,13 +1,13 @@
-// import { NotificationPageModule } from './../notification/notification.module';
-// import { NotificationPage } from './../notification/notification.page';
+import { HeaderComponent } from './../../../../core/header/header.component';
+import { CoreModule } from './../../../../core/core.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+
 import { IonicModule } from '@ionic/angular';
+
 import { DashboardPage } from './dashboard.page';
-import { CoreModule } from 'src/app/core/core.module';
-import {MatGridListModule} from '@angular/material/grid-list'
 
 const routes: Routes = [
   {
@@ -21,13 +21,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    CoreModule,
-    MatGridListModule,
-    // NotificationPageModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    CoreModule
   ],
   declarations: [DashboardPage],
-  // entryComponents:[ NotificationPage ]
-
+  entryComponents: [HeaderComponent]
 })
 export class DashboardPageModule {}

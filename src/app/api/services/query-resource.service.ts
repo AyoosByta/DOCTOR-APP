@@ -7,6 +7,7 @@ import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-respo
 import { Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
+import { ReservedSlotDTO } from '../models/reserved-slot-dto';
 import { PageOfAppointment } from '../models/page-of-appointment';
 import { ContactInfoDTO } from '../models/contact-info-dto';
 import { DoctorDTO } from '../models/doctor-dto';
@@ -15,7 +16,6 @@ import { OpenAppointmentResponse } from '../models/open-appointment-response';
 import { QualificationDTO } from '../models/qualification-dto';
 import { PageOfReview } from '../models/page-of-review';
 import { SessionInfoDTO } from '../models/session-info-dto';
-import { ReservedSlotDTO } from '../models/reserved-slot-dto';
 import { DataResponse } from '../models/data-response';
 
 /**
@@ -25,6 +25,7 @@ import { DataResponse } from '../models/data-response';
   providedIn: 'root',
 })
 class QueryResourceService extends __BaseService {
+  static readonly findSlotsUsingGETPath = '/api/queries/Dr-slots/{date}/{doctorId}';
   static readonly getAppointmentsByDoctorIdUsingGETPath = '/api/queries/appointments/{searchTerm}';
   static readonly findContactInfoUsingGETPath = '/api/queries/contact-infos/{searchTerm}';
   static readonly findDoctorUsingGETPath = '/api/queries/doctor/{searchTerm}';
@@ -46,6 +47,53 @@ class QueryResourceService extends __BaseService {
     http: HttpClient
   ) {
     super(config, http);
+  }
+
+  /**
+   * @param params The `QueryResourceService.FindSlotsUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  findSlotsUsingGETResponse(params: QueryResourceService.FindSlotsUsingGETParams): __Observable<__StrictHttpResponse<Array<ReservedSlotDTO>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/queries/Dr-slots/${params.date}/${params.doctorId}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<ReservedSlotDTO>>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.FindSlotsUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * @return OK
+   */
+  findSlotsUsingGET(params: QueryResourceService.FindSlotsUsingGETParams): __Observable<Array<ReservedSlotDTO>> {
+    return this.findSlotsUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<ReservedSlotDTO>)
+    );
   }
 
   /**
@@ -966,6 +1014,22 @@ class QueryResourceService extends __BaseService {
 }
 
 module QueryResourceService {
+
+  /**
+   * Parameters for findSlotsUsingGET
+   */
+  export interface FindSlotsUsingGETParams {
+
+    /**
+     * doctorId
+     */
+    doctorId: number;
+
+    /**
+     * date
+     */
+    date: string;
+  }
 
   /**
    * Parameters for getAppointmentsByDoctorIdUsingGET

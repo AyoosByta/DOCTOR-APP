@@ -1,81 +1,29 @@
+// Classes
 
-ion-footer.padding-bottom {
-    padding-bottom: 10px;
-}
-mat-form-field.full-width , button.full-width {
-    width: 90vw;
+img.profile-icon {
+  width: 40vw;
+  height: 40vw;
 }
 
-img {
-    width: 90vw;
-    height: 90vw;
-    margin: auto;
+ion-row.logo {
+    height: 47vh;
+    background-image: url(/assets/logo.png);
+    background-color: #0c1536;
+    background-position: 50% 60%;
+    background-size: 80vw;
+    background-repeat: no-repeat;
 }
+
+// Overriding default Elemnt Styles
+
 p {
-    width: auto;
-    display: inline;
-}
-img.profile {
-    border:2px solid black;
-    margin: auto;
-    width: 50vw;
-    height: 50vw;
-    border-radius:50%;
-    animation-name: flash_border;
-    animation-duration: 1s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+  margin: 0px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  display: inline-block;
 }
 
-ion-row.mg-top-20 {
-    margin-top: 20px;
+ion-item {
+  --border-radius:10px;
 }
-ion-grid.full {
-    height: 100%;
-    vertical-align: middle;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-}
-
-@keyframes flash_border {
-    0% {
-        border-bottom: red;
-    }
-    10% {
-        border-bottom: red;
-    }
-    20% {
-        border-bottom: red;
-    }
-    30% {
-
-        border-left: red;
-
-    }
-    40% {
-
-        border-left: red;
-
-    }
-    50% {
-
-        border-left: red;
-
-    }
-    60% {
-      border-right: red;
-    }
-    70% {
-        border-right: red;
-    }
-    80% {
-        border-right: red;
-    }
-    90% {
-        border-top: red;
-      }
-      100% {
-        border-top: red;
-      }
-  }

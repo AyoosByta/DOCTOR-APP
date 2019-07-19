@@ -1,42 +1,45 @@
-<mat-toolbar color="primary">
+<ion-header no-border>
+    <ion-toolbar color="primary">
+        <ion-buttons>
+            <ion-button (click)="cancel()"><ion-icon name="close"></ion-icon></ion-button>
+            <ion-title>Add Qualification</ion-title>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
 
-    <mat-toolbar-row>
-      <ion-buttons>
-        <ion-button (click)="cancel()">
-          <ion-icon name="close" ></ion-icon>
-        </ion-button>    
-      </ion-buttons>
-      <ion-title>Add Qualification</ion-title>
-    </mat-toolbar-row>
-</mat-toolbar>
+    <div>
+        <ion-item>
+                <ion-input no-padding (ionChange)="search()" placeholder="Search Qualifications" [(ngModel)]="searchTerm"></ion-input>
+        </ion-item>
+        <div class="selectedContainer"  *ngIf="selected.length > 0" > 
+            <ion-chip *ngFor="let qualification of selected">
+                <ion-text>{{qualification}}</ion-text>
+                <ion-icon name="close" (click)="remove(qualification)"></ion-icon>
+            </ion-chip>
+        </div>
+    </div>
 
+    <div *ngIf="suggestions.length > 0">
+        <ion-item *ngFor="let qualification of suggestions" (click)="select(qualification)">
+            {{qualification}}
+        </ion-item>
+    </div>
+    <div class="suggestionNotFoundContainer" *ngIf="suggestions.length === 0 && firstTime == false" text-center>
+        <ion-text>No Matches Found</ion-text>
+    </div>
 
-<ion-content padding>
-    <ion-grid>
-    <ion-row>
-      <ion-col>
-          <mat-form-field  class="full-width">
-              <input matInput type="text" placeholder="Qualification" [(ngModel)]="searchTerm">
-              <mat-icon matSuffix>mat</mat-icon>
-          </mat-form-field>    
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-item *ngFor="let s of searchListEntity" >
-    <ion-text (click)="addQualification(s)">{{s.str}}</ion-text>
-    <ion-icon slot="end" name="checkbox" *ngIf="s.selected" (click)="removeQualification(s)"></ion-icon>
-    <ion-icon slot="end" name="checkbox-outline" *ngIf="!s.selected" (click)="addQualification(s)"></ion-icon>
-  </ion-item>
 </ion-content>
+
 <ion-footer>
- <ion-grid>
-   <ion-row>
-    <ion-col>
-      <ion-button expand="block" fill="outline" color="danger" (click)="cancel()">Cancel</ion-button>
-    </ion-col>
-    <ion-col>
-      <ion-button expand="block" fill="outline" (click)="dismiss()">Save</ion-button>
-    </ion-col>
-   </ion-row>
- </ion-grid>
+  <ion-grid>
+      <ion-row>
+          <ion-col>
+                <ion-button expand="block" fill="outline" (click)="cancel()">Cancel</ion-button>
+          </ion-col>
+          <ion-col>
+                <ion-button [disabled]="selected.length === 0" expand="block" fill="outline" (click)="save()">Save</ion-button>
+          </ion-col>
+      </ion-row>
+  </ion-grid>
 </ion-footer>

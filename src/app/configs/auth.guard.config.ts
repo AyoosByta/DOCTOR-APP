@@ -2,8 +2,8 @@ import { OAuthService, JwksValidationHandler, AuthConfig } from 'angular-oauth2-
 import { filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
-export const authConfig: AuthConfig = {
 
+export const authConfig: AuthConfig = {
     issuer: 'http://35.196.86.249:8080/auth/realms/ayoos',
     redirectUri: window.location.origin,
     clientId: 'account',
@@ -14,6 +14,8 @@ export const authConfig: AuthConfig = {
     oidc: false,
     requireHttps: false
 };
+
+
 @Injectable()
 export class AuthGuardConfig {
 
@@ -34,22 +36,21 @@ export class AuthGuardConfig {
         // Optional
         this.oauthService.setupAutomaticSilentRefresh();
 
-        this.oauthService.events.subscribe(e => {
-          // tslint:disable-next-line:no-console
-          console.debug('oauth/oidc event', e);
-        });
+        // this.oauthService.events.subscribe(e => {
+        //   // tslint:disable-next-line:no-console
+        //   console.debug('oauth/oidc event', e);
+        // });
 
-        this.oauthService.events
-          .pipe(filter(e => e.type === 'session_terminated'))
-          .subscribe(e => {
-            // tslint:disable-next-line:no-console
-            console.debug('Your session has been terminated!');
-          });
+        // this.oauthService.events
+        //   .pipe(filter(e => e.type === 'session_terminated'))
+        //   .subscribe(e => {
+        //     console.debug('Your session has been terminated!');
+        //   });
 
-        this.oauthService.events
-          .pipe(filter(e => e.type === 'token_received'))
-          .subscribe(e => {
-            // this.oauthService.loadUserProfile();
-          });
+        // this.oauthService.events
+        //   .pipe(filter(e => e.type === 'token_received'))
+        //   .subscribe(e => {
+        //     // this.oauthService.loadUserProfile();
+        //   });
     }
 }

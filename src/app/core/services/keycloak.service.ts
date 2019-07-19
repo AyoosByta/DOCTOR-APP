@@ -1,47 +1,51 @@
-import { LogService } from './log.service';
+import { KeycloakAdminConfig } from './../../configs/keycloak.admin.config';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { KeycloakAdminClient } from 'keycloak-admin/lib/client';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { LocalStorageService } from './local-storage.service';
-import { NavController } from '@ionic/angular';
+import { HttpHeaders} from '@angular/common/http';
+import { Storage } from '@ionic/storage';
+import { Util } from '../util/util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class KeycloakService {
-  kcAdminClient: KeycloakAdminClient;
+
+  realm = 'ayoos';
+
+  keycloakAdmin: KeycloakAdminClient;
 
   constructor(
-    private oauthService: OAuthService, private log: LogService,
-    private navController: NavController,
-    private localStorage: LocalStorageService
+    private oauthService: OAuthService,
+    private keycloakConfig: KeycloakAdminConfig,
+    private storage: Storage,
+    private util: Util
   ) {
-    this.kcAdminClient = new KeycloakAdminClient();
-    this.kcAdminClient.setConfig({
-      baseUrl: 'http://35.196.86.249:8080/auth'
-    });
-    this.configureKeycloakAdmin();
+    this.keycloakAdmin = this.keycloakConfig.kcAdminClient;
   }
 
-  configureKeycloakAdmin() {
-    this.kcAdminClient.auth({
-      username: 'admin',
-      password: 'karma123',
-      grantType: 'password',
-      clientId: 'admin-cli'
-    });
-  }
 
-  createAccount(user: any, password: string): Promise<void | { id: number }> {
-    user.realm = 'ayoos';
-    user.credentials = [{ type: 'password', value: password }];
-    user.attributes = map;
-    user.enabled = true;
-
-    return this.kcAdminClient.users.create(user).then(res => {
-      this.log.log('Account Created', res);
+  async createAccount(user: any, password: string , success) {
+    return this.keycloakConfig.refreshClient().then(() => {
+      this.keycloakAdmin = this.keycloakConfig.kcAdminClient
+      user.realm = this.realm;
+      user.credentials = [{ type: 'password', value: password }];
+      user.attributes = map;
+      user.enabled = true;
+  
+      console.log(user);
+  
+      return this.keycloakAdmin.users.create(user)
+      .then(res => {
+        console.log('Account Created', res);
+        success();
+        this.util.navigateDashboard();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  
     });
   }
 
@@ -49,29 +53,23 @@ export class KeycloakService {
     return await this.oauthService.hasValidAccessToken();
   }
 
-  authenticate(username: string, password: string): Promise<object> {
-    return this.oauthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(
+  async authenticate(username: string, password: string): Promise<object> {
+    return await this.oauthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(
       username,
       password,
       new HttpHeaders()
     );
   }
 
-  getCurrentUserDetails(func) {
-    this.log.log('Getting Current User Details From KeyCloak');
-
-    this.oauthService.loadUserProfile().then(profileData => {
-      this.log.log('Got User Details', profileData);
-      func(profileData);
-    });
+  async getCurrentUserDetails() {
+    return await this.oauthService.loadUserProfile();
   }
 
-  updateCurrentUser(keycloakUser: any): Promise<void> {
-    this.log.log('Trying to Update', keycloakUser);
-    return this.kcAdminClient.users.update(
+  async updateCurrentUserDetails(keycloakUser: any): Promise<void> {
+    return await this.keycloakAdmin.users.update(
       {
         id: keycloakUser.sub,
-        realm: 'graeshoppe'
+        realm: this.realm
       },
       {
         firstName: keycloakUser.name.split(' ')[0],
@@ -81,17 +79,9 @@ export class KeycloakService {
     );
   }
 
-  updateCurrentUserDetails() {
-
-      this.oauthService.loadUserProfile()
-      .then(user => {
-        this.localStorage.setItem('kuser' , JSON.stringify(user));
-      });
-  }
-
   logout() {
-    this.oauthService.logOut()
-    this.localStorage.clear();
-    this.navController.navigateForward('');
+    this.oauthService.logOut();
+    this.util.navigateLogin();
+    this.storage.clear();
   }
 }

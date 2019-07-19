@@ -1,4 +1,5 @@
-import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
+import { OAuthModule } from 'angular-oauth2-oidc';
+import { KeycloakAdminConfig } from './keycloak.admin.config';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthGuardConfig } from './auth.guard.config';
@@ -6,14 +7,14 @@ import { AuthGuardConfig } from './auth.guard.config';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-    OAuthModule.forRoot(),
+    CommonModule
   ],
-  providers:[AuthGuardConfig],
+  providers: [AuthGuardConfig , KeycloakAdminConfig],
 })
 export class ConfigsModule {
 
   constructor(
-    private a: AuthGuardConfig
+    private authGuardConfig: AuthGuardConfig ,
+    private keyCloakConfig: KeycloakAdminConfig
   ) {}
 }

@@ -1,51 +1,42 @@
-<mat-toolbar color="primary">
+<ion-header no-border>
+    <ion-toolbar color="primary">
+        <ion-buttons>
+            <ion-button (click)="cancel()">
+                <ion-icon name="close"></ion-icon>
+            </ion-button>
+            <ion-title>Add Workplace</ion-title>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
 
-    <mat-toolbar-row>
-      <ion-buttons>
-        <ion-button (click)="cancel()">
-          <ion-icon name="close" ></ion-icon>
-        </ion-button>    
-      </ion-buttons>
-      <ion-title>Add Workplace</ion-title>
-    </mat-toolbar-row>
-</mat-toolbar>
+<ion-content>
+    <div>
+        <ion-item>
+            <ion-input placeholder="Clinic Name" [(ngModel)]="searchClinic" (ionChange)="nameUpdated()" ></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-input placeholder="Location" [(ngModel)]="searchLocation" (keyup)="search($event)" ></ion-input>
+        </ion-item>
+    </div>
+    <div *ngIf="locationSuggetions !== undefined && locationSuggetions.length !== 0">
+        <ion-item *ngFor="let location of locationSuggetions" (click)="select(location)">
+            {{location.description}}
+        </ion-item>
+    </div>
+    <div class="suggestionNotFoundContainer" *ngIf="locationSuggetions.length === 0 && firstTime === false">
+        Searching
+    </div>
+</ion-content>
 
-<ion-content padding>
+<ion-footer>
     <ion-grid>
         <ion-row>
-          <ion-col>
-              <mat-form-field  class="full-width">
-                  <input matInput type="text" placeholder="Clinic / Hospital Name" [(ngModel)]="clinicName">
-                  <mat-icon matSuffix>local_hospital</mat-icon>
-              </mat-form-field>    
-          </ion-col>
+            <ion-col>
+                  <ion-button expand="block" fill="outline" (click)="cancel()">Cancel</ion-button>
+            </ion-col>
+            <ion-col>
+                  <ion-button [disabled]="selectedLocation === undefined" expand="block" fill="outline" (click)="save()">Save</ion-button>
+            </ion-col>
         </ion-row>
-        <ion-row>
-          <ion-col>
-              <mat-form-field  class="full-width">
-                  <input matInput type="text" placeholder="Location" [(ngModel)]="searchTerm" (input)="onSearch()">
-                  <mat-icon matSuffix>add_location</mat-icon>
-              </mat-form-field>   
-       </ion-col>
-        </ion-row>
-      </ion-grid>
-
-      <hr/>
-   
-      <ion-item *ngFor="let option of values">
-          <ion-label (click)="select(option)">{{option.description}}</ion-label>
-        </ion-item>  
-
-</ion-content>
-<ion-footer>
- <ion-grid>
-   <ion-row>
-    <ion-col>
-      <ion-button expand="block" fill="outline" color="danger" (click)="cancel()">Cancel</ion-button>
-    </ion-col>
-    <ion-col>
-      <ion-button expand="block" fill="outline" (click)="dismiss()">Save</ion-button>
-    </ion-col>
-   </ion-row>
- </ion-grid>
-</ion-footer>
+    </ion-grid>
+  </ion-footer>

@@ -1,4 +1,3 @@
-import { AboutComponent } from './components/about/about.component';
 import { AuthenticationPageRoutingModule } from './authentication.router.module';
 import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
