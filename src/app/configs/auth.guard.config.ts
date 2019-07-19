@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
 
 export const authConfig: AuthConfig = {
 
-    issuer: 'http://35.196.86.249:8080/auth/realms/graeshoppe',
+    issuer: 'http://35.196.86.249:8080/auth/realms/ayoos',
     redirectUri: window.location.origin,
     clientId: 'account',
     scope: 'openid profile email voucher offline_access',
-    dummyClientSecret: '29a095bc-9ced-480b-a719-4e70ce7dcc49',
-    tokenEndpoint: 'http://35.196.86.249:8080/auth/realms/graeshoppe/protocol/openid-connect/token',
-    userinfoEndpoint: 'http://35.196.86.249:8080/auth/realms/graeshoppe/protocol/openid-connect/userinfo',
+    dummyClientSecret: '622ccedd-b819-4512-8e43-ee9837088a48',
+    tokenEndpoint: 'http://35.196.86.249:8080/auth/realms/ayoos/protocol/openid-connect/token',
+    userinfoEndpoint: 'http://35.196.86.249:8080/auth/realms/ayoos/protocol/openid-connect/userinfo',
     oidc: false,
     requireHttps: false
 };

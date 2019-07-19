@@ -27,7 +27,7 @@ export class AddWorkplaceModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.workPlace.id !== undefined) {
+    if (this.workPlace.id !== undefined) {
 
         this.searchTerm = this.workPlace.locationName;
         this.clinicName = this.workPlace.name;
@@ -62,8 +62,8 @@ export class AddWorkplaceModalComponent implements OnInit {
 
   dismiss() {
 
-    if(this.workPlace.id === undefined) {
-      const workplace : WorkPlaceDTO= {}
+    if (this.workPlace.id === undefined) {
+      const workplace: WorkPlaceDTO = {};
       workplace.name = this.clinicName;
       workplace.locationName = this.searchTerm;
       console.log(workplace);
@@ -74,17 +74,17 @@ export class AddWorkplaceModalComponent implements OnInit {
             console.log('Geocoder failed due to: ' + status);
             return;
           }
-    
-          let latlon = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+
+          const latlon = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
           console.log('Lat is inside geo ' + results[0].geometry.location.lat());
           console.log('Lon is inside geo ' + results[0].geometry.location.lng());
 
           workplace.location = latlon.toString();
           console.log('Workplace' , workplace);
           this.modalController.dismiss(workplace);
-          
+
           });
-      })
+      });
     }
   }
 

@@ -82,6 +82,8 @@ export class DoctorService {
             sessions => {
               console.log('Updating Sessions for workplace ' , workplace.id , 'GOT ' , sessions);
               this.localStorage.setItem('sessions' + workplace.id , JSON.stringify(sessions));
+          },err=>{
+            this.localStorage.setItem('sessions' + workplace.id , JSON.stringify([]));
           });
         }
         func();
@@ -111,9 +113,11 @@ export class DoctorService {
   updateCurrentDoctorWorkPlaces() {
     this.localStorage.getItem('doctor')
     .subscribe(doc => {
+      console.log('Geting Doctor iD' , JSON.parse(doc).doctorId);
      this.queryResourceService.findWorkPlaceUsingGET({searchTerm: JSON.parse(doc).doctorId + ''})
      .subscribe(workplaces => {
        this.localStorage.setItem('workplaces' , JSON.stringify(workplaces));
+       this.updateCurrentSessions(function(){});
      });
     });
   }

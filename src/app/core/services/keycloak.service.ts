@@ -35,7 +35,7 @@ export class KeycloakService {
   }
 
   createAccount(user: any, password: string): Promise<void | { id: number }> {
-    user.realm = 'graeshoppe';
+    user.realm = 'ayoos';
     user.credentials = [{ type: 'password', value: password }];
     user.attributes = map;
     user.enabled = true;
