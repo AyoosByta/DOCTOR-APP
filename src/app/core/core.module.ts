@@ -16,6 +16,7 @@ import { LocationService } from './services/location.service';
 import { GetService } from './services/get.service';
 import { PostService } from './services/post.service';
 import { IonicStorageModule } from '@ionic/storage';
+import { ConsultationService } from './services/consultation.service';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { IonicStorageModule } from '@ionic/storage';
   exports: [HeaderComponent],
   providers: [
     LocationService,
+    ConsultationService,
     Util,
     GoogleMapsAPIWrapper,
     ResetService,
