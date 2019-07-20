@@ -1,0 +1,42 @@
+<ion-header no-border>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-title>Paramedical Info</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid no-padding>
+    <ion-row justify-content-center margin>
+      <ion-col size="12" margin>
+        <ion-item>
+          <ion-label position="floating">BP</ion-label>
+          <ion-input type="number" placeholder="0.0" [(ngModel)]="paramedicalInfo.bp"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" margin>
+        <ion-item>
+          <ion-label position="floating">Temperature</ion-label>
+          <ion-input type="number" placeholder="0.0" [(ngModel)]="paramedicalInfo.temperature"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" margin>
+        <ion-item>
+          <ion-label position="floating">Weight</ion-label>
+          <ion-input type="number" placeholder="0.0kg" [(ngModel)]="paramedicalInfo.weight"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" margin>
+        <ion-item>
+          <ion-label position="floating">Height</ion-label>
+          <ion-input type="number" placeholder="0.0" [(ngModel)]="paramedicalInfo.height"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-button (click)="saveParamedical()" color="secondary" margin expand="block" >Save</ion-button>
+</ion-footer>

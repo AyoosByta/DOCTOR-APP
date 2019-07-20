@@ -23,8 +23,8 @@ export class Util {
        return await this.toastController.create({
             message: msg ,
             duration: 2000,
-            color: 'dark',
-            position: 'middle',
+            color: 'light',
+            position: 'top',
             showCloseButton : true,
             keyboardClose: true,
             buttons: [

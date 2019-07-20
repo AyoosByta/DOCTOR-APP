@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {}
 
   logout() {
-    this.keycloakService.logout();
+    this.keycloakService.logout(true);
     this.getService.clear();
   }
 }

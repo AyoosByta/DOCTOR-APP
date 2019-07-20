@@ -9,7 +9,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid margin>
+  <ion-grid margin class="vertical-align-center">
     <ion-row>
       <ion-col class="profileImage" size="12" size-md="6" size-xm="6">
         <ion-thumbnail>
@@ -30,7 +30,7 @@
             <ion-col size="12" text-center>
               <ion-label>Booked On : {{appointment.bookingDate + ' ' + appointment.bookingTime}}</ion-label>
             </ion-col>
-            <ion-col text-center>
+            <ion-col text-center *ngIf="status===false">
               <ion-button (click)="startConsultation()" full-width color="success">Start Consultation</ion-button>
             </ion-col>
           </ion-row>

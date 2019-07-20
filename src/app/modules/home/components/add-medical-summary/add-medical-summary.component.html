@@ -1,0 +1,54 @@
+<ion-header no-border>
+    <ion-toolbar color="secondary">
+      <ion-buttons slot="start">
+        <ion-button (click)="dismiss()">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+        <ion-title>Medical Summary</ion-title>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+<ion-content>
+    <ion-grid>
+        <ion-row justify-content-center class="box" >
+          <ion-col size="12" margin>
+            <ion-item *ngFor="let diagnosis of selectedDiagnosis">
+              <p>{{diagnosis}}</p>
+            </ion-item>
+            <ion-item lines="full">
+              <ion-label>Diagnosis</ion-label>
+              <ion-input [(ngModel)]="inputValueDiagnosis" (ionChange)="findMatching('diagnosis')"></ion-input>
+            </ion-item>
+
+            <ion-list>
+              <ion-item *ngFor="let option of tmpOptionsDiagnosis" (click)="selectDiagnosis(option.name)">
+                {{option.name}}
+              </ion-item>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+      
+        <ion-row justify-content-center class="box">
+          <ion-col size="12" margin>
+              <ion-item *ngFor="let symptoms of selectedSymptoms">
+                  <p>{{symptoms}}</p>
+                </ion-item>
+            <ion-item lines="full">
+              <ion-label>Symptoms</ion-label>
+              <ion-input  [(ngModel)]="inputValueSymptoms" (ionChange)="findMatching('symptoms')"></ion-input>
+            </ion-item>
+            <ion-list>
+                <ion-item *ngFor="let option of tmpOptionsSymptoms" (click)="selectSymptoms(option.name)">
+                  {{option.name}}
+                </ion-item>
+              </ion-list>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+</ion-content>
+
+
+<ion-footer>
+    <ion-button (click)="saveMedicalSummary()" color="secondary" margin expand="block" >Save</ion-button>
+  </ion-footer>

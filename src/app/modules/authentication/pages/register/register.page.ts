@@ -2,6 +2,7 @@ import { PostService } from './../../../../core/services/post.service';
 import { Component, OnInit } from '@angular/core';
 import { DoctorDTO } from 'src/app/api/models';
 import { Util } from 'src/app/core/util/util';
+import { GetService } from 'src/app/core/services/get.service';
 
 @Component({
   selector: 'app-register',
@@ -13,22 +14,25 @@ export class RegisterPage implements OnInit {
 
   password: string;
 
-  constructor(private postService: PostService, private util: Util) {}
+  constructor(private postService: PostService, private util: Util,
+    private getService: GetService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getService.setResetFlag(true);
+  }
 
   createAccount() {
     this.util.createLoader().then(loading => {
       loading.present();
-      this.postService.addDoctor(this.doctor, this.password)
-      .then(doctor => {
-        console.log(doctor);
+      this.postService.addDoctor(this.doctor, this.password ,()=>{
         loading.dismiss();
         this.util.navigateRoot();
+      } , (err)=>{
+        this.util.createToast('Unable To create Account').then(toast=>{
+          toast.present();
+          loading.dismiss();
+        });
       })
-      .catch(err => {
-        this.util.createToast('Unable To create Account');
-      });
     });
   }
 }

@@ -26,7 +26,7 @@ export class PostService {
 
   // Create Methods
 
-  public addDoctor(doctor: DoctorDTO , password) {
+  public addDoctor(doctor: DoctorDTO , password , success, error) {
     let user: UserRepresentation = {};
     user.email = doctor.email;
     user.firstName = doctor.firstName.split(' ')[0];
@@ -38,11 +38,16 @@ export class PostService {
         .then(data => {
           return this.doctorService.createDoctor(doctor).toPromise()
           .then(data => {
+            success();
             console.log(data);
+          })
+          .catch(err =>{
+            this.keycloakService.logout(false);
+            error();
           });
         });
-      })
-    .catch(err => console.log(err));
+      },error)
+    .catch(()=>{error();});
   }
 
   public addQualification(name: string , did: number) {

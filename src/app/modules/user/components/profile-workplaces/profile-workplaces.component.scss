@@ -1,9 +1,13 @@
-.addBtnContainer {
-    justify-content: flex-end;
+ion-badge {
+    margin: 5px;
+}
+
+div.workplaces-container {
+    justify-content: center;
+    align-items: center;
     display: flex;
 }
 
-.addBtn {
-    width: 36px;
-    height: 35px;
-}
+// .borderBottom {
+//     border-bottom: 1px solid black;
+// }

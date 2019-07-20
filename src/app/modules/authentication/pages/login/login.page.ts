@@ -2,6 +2,7 @@ import { KeycloakService } from './../../../../core/services/keycloak.service';
 import { Component, OnInit } from '@angular/core';
 import { Util } from 'src/app/core/util/util';
 import { GetService } from 'src/app/core/services/get.service';
+import { ResetService } from 'src/app/core/services/reset.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginPage implements OnInit {
   password: string;
 
   constructor(private keycloakService: KeycloakService, private util: Util,
-    private getService:GetService) {}
+    private getService:GetService,
+    private resetService: ResetService) {}
 
   ngOnInit() {
     this.getService.setResetFlag(true);
@@ -52,7 +54,8 @@ export class LoginPage implements OnInit {
         })
         .catch(err => {
           console.error(err);
-          this.util.createToast(LoginPage._INVALID_PASSWORD_USERNAME);
+          this.util.createToast(LoginPage._INVALID_PASSWORD_USERNAME)
+          .then(toast=>{toast.present();});
           loading.dismiss();
         });
     });

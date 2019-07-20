@@ -26,7 +26,7 @@ export class KeycloakService {
   }
 
 
-  async createAccount(user: any, password: string , success) {
+  async createAccount(user: any, password: string , success , error) {
     return this.keycloakConfig.refreshClient().then(() => {
       this.keycloakAdmin = this.keycloakConfig.kcAdminClient
       user.realm = this.realm;
@@ -40,10 +40,10 @@ export class KeycloakService {
       .then(res => {
         console.log('Account Created', res);
         success();
-        this.util.navigateDashboard();
       })
       .catch(err => {
-        console.log(err);
+        console.log('IIII',err);
+        error(err);
       });
   
     });
@@ -81,9 +81,13 @@ export class KeycloakService {
     });
   }
 
-  logout() {
+  logout(navigate) {
     this.oauthService.logOut();
-    this.util.navigateLogin();
+
+    if(navigate) {
+      this.util.navigateLogin();
+    }
+    
     this.storage.clear();
   }
 }

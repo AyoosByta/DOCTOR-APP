@@ -14,7 +14,7 @@ export class AuthGuardService implements CanActivate {
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-      console.log('Check if token valid ' + this.oauthService.hasValidIdToken());
+      console.log('Check if token valid ' + this.oauthService.hasValidAccessToken());
       if (this.oauthService.hasValidAccessToken()) {
         return true;
       }

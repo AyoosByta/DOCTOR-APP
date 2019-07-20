@@ -5,7 +5,7 @@
         defaultHref="/home/dashboard"
         text=""
       ></ion-back-button>
-      <ion-label class="cl-white">Appointments</ion-label>
+      <ion-title>Appointments</ion-title>
     </ion-buttons>
 
     <ion-buttons slot="end">
@@ -21,9 +21,9 @@
       <ion-list>
 
           <ion-item lines="full" *ngFor="let a of appointments" (click)="startConsultation(a)">
-            <ion-avatar slot="start">
+            <ion-thumbnail slot="start">
                 <ion-img src="/assets/disease.png"></ion-img>
-            </ion-avatar>
+            </ion-thumbnail>
               <ion-label margin>
                 <h1>{{a.name}}</h1>
                 <p>Age: {{a.age + ' yrs'}}</p>

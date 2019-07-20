@@ -67,6 +67,10 @@ export class GetService {
         .subscribe(doctor => {
           this.doctorBehaviour.next(doctor);
           this.storage.set(GetService._DOCTOR_KEY, doctor);
+        },err=> {
+          
+          // Forward to Error Page
+
         });
     };
 

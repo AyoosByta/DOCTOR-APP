@@ -1,0 +1,54 @@
+<ion-header no-border>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-title>Prescription</ion-title>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="success" (click)="addPrescription()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-list *ngIf="prescriptions.length > 0">
+    <ion-item-sliding *ngFor="let prescription of prescriptions">
+      <ion-item-options side="start">
+        <ion-item-option color="danger" (click)="removePrescription(prescription)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+
+      <ion-item>
+        <ion-label>
+          <h2>{{prescription.drug + ' ' + prescription.dose}}</h2>
+          <h3>{{prescription.frequency}}</h3>
+          <h4>{{prescription.period}}</h4>
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option (click)="editPrescription(prescription)">
+            <ion-icon name="create"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
+  </ion-list>
+
+  <div class="vertical-align-center">
+    <ion-text text-center *ngIf="prescriptions.length === 0">
+      No Prescriptions Added(0)
+    </ion-text>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <ion-button color="primary" expand="block" (click)="savePrescription()" margin>Save</ion-button>
+</ion-footer>

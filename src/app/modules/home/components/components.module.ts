@@ -5,6 +5,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ConsultationComponent } from './consultation/consultation.component';
+import { AddParamedicalComponent } from './add-paramedical/add-paramedical.component';
+import { AddMedicalSummaryComponent } from './add-medical-summary/add-medical-summary.component';
+import { PrescriptionListComponent } from './prescription-list/prescription-list.component';
+import { AddPrescriptionComponent } from './add-prescription/add-prescription.component';
 
 @NgModule({
   imports: [
@@ -14,7 +18,8 @@ import { ConsultationComponent } from './consultation/consultation.component';
     SharedModule,
     NgbModule
   ],
-  declarations: [ConsultationComponent],
-  exports: [ConsultationComponent]
+  declarations: [ConsultationComponent,AddParamedicalComponent , AddMedicalSummaryComponent, PrescriptionListComponent , AddPrescriptionComponent],
+  exports: [ConsultationComponent,AddParamedicalComponent,AddMedicalSummaryComponent, PrescriptionListComponent , AddPrescriptionComponent],
+  entryComponents: [AddParamedicalComponent,AddMedicalSummaryComponent , PrescriptionListComponent , AddPrescriptionComponent]
 })
 export class ComponentsModule { }
