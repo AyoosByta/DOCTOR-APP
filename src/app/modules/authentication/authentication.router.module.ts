@@ -7,22 +7,12 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        children: [
-          {
-            path: '',
-            loadChildren: '../authentication/pages/login/login.module#LoginPageModule'
-          }
-        ]
+        loadChildren: '../authentication/pages/login/login.module#LoginPageModule'
       },
 
       {
         path: 'register',
-        children: [
-          {
-            path: '',
-            loadChildren: '../authentication/pages/register/register.module#RegisterPageModule'
-          }
-        ]
+        loadChildren: '../authentication/pages/register/register.module#RegisterPageModule'
       },
       {
         path: '',

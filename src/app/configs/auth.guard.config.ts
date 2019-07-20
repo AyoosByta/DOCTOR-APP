@@ -36,21 +36,21 @@ export class AuthGuardConfig {
         // Optional
         this.oauthService.setupAutomaticSilentRefresh();
 
-        // this.oauthService.events.subscribe(e => {
-        //   // tslint:disable-next-line:no-console
-        //   console.debug('oauth/oidc event', e);
-        // });
+        this.oauthService.events.subscribe(e => {
+          // tslint:disable-next-line:no-console
+          console.debug('oauth/oidc event', e);
+        });
 
-        // this.oauthService.events
-        //   .pipe(filter(e => e.type === 'session_terminated'))
-        //   .subscribe(e => {
-        //     console.debug('Your session has been terminated!');
-        //   });
+        this.oauthService.events
+          .pipe(filter(e => e.type === 'session_terminated'))
+          .subscribe(e => {
+            console.debug('Your session has been terminated!');
+          });
 
-        // this.oauthService.events
-        //   .pipe(filter(e => e.type === 'token_received'))
-        //   .subscribe(e => {
-        //     // this.oauthService.loadUserProfile();
-        //   });
+        this.oauthService.events
+          .pipe(filter(e => e.type === 'token_received'))
+          .subscribe(e => {
+            // this.oauthService.loadUserProfile();
+          });
     }
 }

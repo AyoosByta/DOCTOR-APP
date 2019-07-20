@@ -9,32 +9,18 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        children: [
-          {
-            path: '',
-            loadChildren: '../home/pages/dashboard/dashboard.module#DashboardPageModule'
-          }
-        ]
+        loadChildren: '../home/pages/dashboard/dashboard.module#DashboardPageModule'
+      },
+      {
+        path: 'appointment',
+        loadChildren: '../home/pages/appointment/appointment.module#AppointmentPageModule'
       },
 
+      // Links to Outside Modules
       {
         path: 'profile',
-        children: [
-          {
-            path: '',
-            loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
-          }
-        ]
+        loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
       },
-      {
-        path: 'appointments',
-        children: [
-          {
-            path: '',
-            loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
-          }
-        ]
-      }
     ],
   },
 

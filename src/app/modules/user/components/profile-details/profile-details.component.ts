@@ -38,7 +38,6 @@ export class ProfileDetailsComponent implements OnInit {
   }
 
   updateDoctor() {
-    alert(this.inputSupportedDate);
     console.log('Updating Doctor' , this.doctor);
     this.doctor.practiceSince = moment
       .parseZone(this.inputSupportedDate)

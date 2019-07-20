@@ -12,6 +12,11 @@ export class DashboardPage implements OnInit {
 
   isReady = false;
 
+  options = [
+    {name: 'Sessions',icon: 'clock',route:'session'},
+    {name: 'Appointments',icon: 'calendar',route:'appointment'}
+  ]
+
   constructor(
     private util: Util,
     private resetService: ResetService,
@@ -25,7 +30,15 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
   }
 
-  navigateSession() {
-    this.util.navigateSessions();
+  navigateUrl(routeName) {
+
+    switch(routeName) {
+      case 'session':
+          this.util.navigateSessions();
+          break;
+      
+      case 'appointment':
+        this.util.navigateAppointments();
+    }
   }
 }

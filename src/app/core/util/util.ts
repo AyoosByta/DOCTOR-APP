@@ -56,10 +56,10 @@ export class Util {
     }
 
     navigateAppointments() {
-        this.navController.navigateForward('/home/appointments');
+        this.navController.navigateForward('/home/appointment');
     }
 
-    navigateConsultation() {
+    navigateConsultation(token) {
     }
 
     navigateSettings() {

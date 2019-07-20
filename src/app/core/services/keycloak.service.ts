@@ -66,17 +66,19 @@ export class KeycloakService {
   }
 
   async updateCurrentUserDetails(keycloakUser: any): Promise<void> {
-    return await this.keycloakAdmin.users.update(
-      {
-        id: keycloakUser.sub,
-        realm: this.realm
-      },
-      {
-        firstName: keycloakUser.name.split(' ')[0],
-        lastName: keycloakUser.name.split(' ')[1],
-        email: keycloakUser.email
-      }
-    );
+    return await this.keycloakConfig.refreshClient().then(() => {
+      this.keycloakAdmin.users.update(
+        {
+          id: keycloakUser.sub,
+          realm: this.realm
+        },
+        {
+          firstName: keycloakUser.name.split(' ')[0],
+          lastName: keycloakUser.name.split(' ')[1],
+          email: keycloakUser.email
+        }
+      );  
+    });
   }
 
   logout() {

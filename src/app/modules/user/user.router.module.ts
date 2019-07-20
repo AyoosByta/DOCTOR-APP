@@ -7,12 +7,7 @@ const routes: Routes = [
     children: [
       {
         path: 'profile',
-        children: [
-          {
-            path: '',
-            loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
-          },
-        ]
+        loadChildren: '../user/pages/profile/profile.module#ProfilePageModule'
       },
       {
         path: 'settings',

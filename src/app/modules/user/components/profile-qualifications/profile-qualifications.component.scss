@@ -1,13 +1,13 @@
-.addBtnContainer {
-    justify-content: flex-end;
+ion-badge {
+    margin: 5px;
+}
+
+div.qualification-container {
+    justify-content: center;
+    align-items: center;
     display: flex;
 }
 
-.addBtn {
-    width: 36px;
-    height: 35px;
-}
-
-ion-grid.borderBottom {
-    border-bottom: 1px solid grey;
+.borderBottom {
+    border-bottom: 1px solid black;
 }

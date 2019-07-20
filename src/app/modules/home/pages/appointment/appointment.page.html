@@ -1,0 +1,34 @@
+<ion-header >
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/home/dashboard"
+        text=""
+      ></ion-back-button>
+      <ion-label class="cl-white">Appointments</ion-label>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+      <ion-list>
+
+          <ion-item lines="full" *ngFor="let a of appointments" (click)="startConsultation(a)">
+            <ion-avatar slot="start">
+                <ion-img src="/assets/disease.png"></ion-img>
+            </ion-avatar>
+              <ion-label margin>
+                <h1>{{a.name}}</h1>
+                <p>Age: {{a.age + ' yrs'}}</p>
+                <h2>  {{a.bookingDate + ' : ' +a.bookingTime}}</h2>
+              </ion-label>
+            </ion-item>
+      </ion-list>
+</ion-content>

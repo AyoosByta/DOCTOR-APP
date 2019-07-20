@@ -5,14 +5,18 @@
     ">
   </ion-avatar>
 
-  <ion-icon class="header-icon" name="settings" slot="start" (click)="settingsPage()"></ion-icon>
-  <ion-icon slot="end" *ngIf="doctor.image == null" (click)="profilePage()" class="header-icon" name="contact">
-  </ion-icon>
 
-  <div class="notification-div" slot="end">
-    <ion-icon name="notifications" class="header-icon ion-margin-horizontal" >
-    </ion-icon>
-    <ion-badge color="danger">45</ion-badge>
-  </div>
+  <ion-buttons slot="start">
+    <ion-button (click)="settingsPage()">
+        <ion-icon name="settings" size="large"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+
+  <ion-buttons slot="end">
+      <ion-button (click)="notificationPage()">
+          <ion-icon name="notifications" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
 </ion-toolbar>

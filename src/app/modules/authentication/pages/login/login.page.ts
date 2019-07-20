@@ -1,6 +1,7 @@
 import { KeycloakService } from './../../../../core/services/keycloak.service';
 import { Component, OnInit } from '@angular/core';
 import { Util } from 'src/app/core/util/util';
+import { GetService } from 'src/app/core/services/get.service';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +15,11 @@ export class LoginPage implements OnInit {
   username: string;
   password: string;
 
-  constructor(private keycloakService: KeycloakService, private util: Util) {}
+  constructor(private keycloakService: KeycloakService, private util: Util,
+    private getService:GetService) {}
 
   ngOnInit() {
+    this.getService.setResetFlag(true);
     this.isAuthenticated();
   }
 
