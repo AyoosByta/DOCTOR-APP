@@ -25,6 +25,7 @@ export class RegisterPage implements OnInit {
     this.util.createLoader().then(loading => {
       loading.present();
       this.postService.addDoctor(this.doctor, this.password ,()=>{
+        this.getService.setResetFlag(true);
         loading.dismiss();
         this.util.navigateRoot();
       } , (err)=>{

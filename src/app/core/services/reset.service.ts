@@ -10,9 +10,9 @@ import { Injectable } from '@angular/core';
     }
 
     dataInitialize() {
-        this.getService.initDoctor();
-        this.getService.initQualifications();
-        this.getService.initWorkplaces();
+        this.getService.initDoctor(true);
+        this.getService.initQualifications(true);
+        this.getService.initWorkplaces(true);
         this.getService.setResetFlag(false);
     }
   }

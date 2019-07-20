@@ -4,6 +4,7 @@ import { ConsultationService } from 'src/app/core/services/consultation.service'
 import { AddParamedicalComponent } from '../add-paramedical/add-paramedical.component';
 import { AddMedicalSummaryComponent } from '../add-medical-summary/add-medical-summary.component';
 import { PrescriptionListComponent } from '../prescription-list/prescription-list.component';
+import { Util } from 'src/app/core/util/util';
 
 @Component({
   selector: 'app-consultation',
@@ -12,14 +13,15 @@ import { PrescriptionListComponent } from '../prescription-list/prescription-lis
 })
 export class ConsultationComponent implements OnInit {
 
-  status = false;
+  status = null;
 
   appointment;
 
   constructor(
     private modalController:ModalController,
     private  consultationService: ConsultationService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private util: Util
   ) { }
 
   ngOnInit() {}
@@ -29,11 +31,16 @@ export class ConsultationComponent implements OnInit {
   }
 
   startConsultation() {
-    this.consultationService.startConsultation(this.appointment.token,
-    ()=>{
-      this.status = true;
-      this.showAlert();
-    });
+    this.util.createLoader()
+    .then(loader => {
+      loader.present();
+      this.consultationService.startConsultation(this.appointment.token,
+        ()=>{
+          loader.dismiss();
+          this.status = 'waiting';
+          this.showAlert();
+        },()=>{});    
+    })
   }
 
   async showAlert() {
@@ -46,7 +53,9 @@ export class ConsultationComponent implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
           handler: ()=>{
-            this.consultationService.collectParamedicalInfo(false,()=>{});
+              this.consultationService.collectParamedicalInfo(false,()=>{
+                  this.showAddMedicalSummary();
+              });
             }
           },
           {
@@ -107,7 +116,7 @@ export class ConsultationComponent implements OnInit {
       if(data.data != undefined) {
         console.log('Saving Prescription' , data.data);
         this.consultationService.savePrescription(data.data , ()=>{
-
+            this.status = 'completed';
         });
       }
     })

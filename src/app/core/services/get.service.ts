@@ -50,8 +50,9 @@ export class GetService {
       // Sessions Fix providing a default value to the SessionsBehaviour
       this.sessionsMapMap.set(GetService._SESSIONS_KEY, new Map());
 
+      console.log('Status ', status);
+
       if (status === true) {
-        console.log('Status ', status);
         this.initDoctor(true);
         this.initQualifications(true);
         this.initWorkplaces(true);

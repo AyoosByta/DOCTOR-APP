@@ -44,6 +44,7 @@ export class LoginPage implements OnInit {
   }
 
   authenticate() {
+    this.getService.setResetFlag(true);
     this.util.createLoader().then(loading => {
       loading.present();
       this.keycloakService

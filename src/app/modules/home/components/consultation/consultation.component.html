@@ -24,15 +24,26 @@
             <ion-col size="12" text-center>
               <ion-text>
                 <h2>{{appointment.name}}</h2>
-                <p>{{appointment.age}} yrs</p>
+                <h4>{{appointment.age}} yrs</h4>
               </ion-text>
             </ion-col>
             <ion-col size="12" text-center>
-              <ion-label>Booked On : {{appointment.bookingDate + ' ' + appointment.bookingTime}}</ion-label>
+              <ion-text color="success">
+                <h3>{{appointment.bookingDate + ' ' + appointment.bookingTime}}</h3>
+              </ion-text>
             </ion-col>
-            <ion-col text-center *ngIf="status===false">
+            <ion-col text-center *ngIf="status===null">
               <ion-button (click)="startConsultation()" full-width color="success">Start Consultation</ion-button>
             </ion-col>
+            <ion-col text-center *ngIf="status==='waiting'">
+              <ion-text color="primary">Waiting...</ion-text>
+            </ion-col>
+            <ion-col text-center *ngIf="status==='completed'">
+                <ion-text  color="success">
+                  <h2>Completed</h2>
+                </ion-text>
+              </ion-col>
+
           </ion-row>
         </ion-grid>
       </ion-col>

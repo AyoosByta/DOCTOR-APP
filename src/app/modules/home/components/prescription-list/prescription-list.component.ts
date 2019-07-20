@@ -51,4 +51,8 @@ export class PrescriptionListComponent implements OnInit {
 
     modal.present();
   }
+
+  savePrescription() {
+    this.modalController.dismiss(this.prescriptions)
+  }
 }

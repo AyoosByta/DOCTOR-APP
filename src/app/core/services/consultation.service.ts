@@ -19,7 +19,7 @@ export class ConsultationService {
   ) { }
 
 
-  startConsultation(token , success) {
+  startConsultation(token , success , error) {
     this.token = token;
     console.log('Getting ProcessInstanceId with token', token);
     this.commandResourceService
@@ -37,8 +37,8 @@ export class ConsultationService {
           this.taskId = value.data[0].id;
           console.log('Got TaskId with processInstanceId',this.processInstanceId+' ' , this.taskId);
           success();
-        });
-    });
+        },error);
+    },error);
   }
 
 
@@ -109,7 +109,8 @@ export class ConsultationService {
         prescriptionRequest: prescription
       })
       .subscribe((data) => {
-        console.log(data);
+        success();
+        console.log('Completed' , data);
       });
 
     });
