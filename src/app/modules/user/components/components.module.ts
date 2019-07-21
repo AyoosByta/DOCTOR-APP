@@ -1,3 +1,4 @@
+import { AddSingleSessionModalComponent } from './add-single-session-modal/add-single-session-modal.component';
 import { AddSessionModalComponent } from './add-session-modal/add-session-modal.component';
 import { SessionComponent } from './session/session.component';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
@@ -30,15 +31,15 @@ import { PaymentSettingsComponent } from './payment-settings/payment-settings.co
     ProfileDetailsComponent , ProfileQualificationsComponent , ProfileWorkplacesComponent,
     AddQualificationModalComponent , AddWorkplaceModalComponent,
     GeneralSettingsComponent, PaymentSettingsComponent,
-    SessionComponent , AddSessionModalComponent
+    SessionComponent , AddSessionModalComponent,AddSingleSessionModalComponent
   ],
   declarations: [
     ProfileDetailsComponent , ProfileQualificationsComponent , ProfileWorkplacesComponent,
     AddQualificationModalComponent , AddWorkplaceModalComponent,
     GeneralSettingsComponent, PaymentSettingsComponent,
-    SessionComponent , AddSessionModalComponent
+    SessionComponent , AddSessionModalComponent,AddSingleSessionModalComponent
   ],
   entryComponents: [ ImageSelectorComponent , RatingComponent , CustomInputComponent , CustomDatePickerComponent ,
-    AddSessionModalComponent ]
+    AddSessionModalComponent,AddSingleSessionModalComponent ]
 })
 export class ComponentsModule { }

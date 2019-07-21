@@ -1,10 +1,13 @@
 <ion-header>
   <ion-toolbar color="secondary">
     <ion-buttons>
-      <ion-button (click)="navigateDashboard()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      <ion-back-button></ion-back-button>
       <ion-title>sessions</ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="addWorkplaceModal()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

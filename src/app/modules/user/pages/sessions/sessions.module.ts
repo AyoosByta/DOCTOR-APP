@@ -1,3 +1,4 @@
+import { AddWorkplaceModalComponent } from './../../components/add-workplace-modal/add-workplace-modal.component';
 import { SessionComponent } from './../../components/session/session.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,6 +26,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [SessionsPage],
-  entryComponents: [SessionComponent]
+  entryComponents: [SessionComponent,AddWorkplaceModalComponent]
 })
 export class SessionsPageModule {}

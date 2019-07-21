@@ -40,6 +40,12 @@ export class ProfileWorkplacesComponent implements OnInit {
     this.getService.getWorkplaces()
     .subscribe(workplaces => {
       this.workplaces = workplaces;
+
+      if (this.workplaces !== undefined) {
+        workplaces.forEach(workplace => {
+          this.exclude.push(workplace.name);
+        });
+      }
     });
   }
 

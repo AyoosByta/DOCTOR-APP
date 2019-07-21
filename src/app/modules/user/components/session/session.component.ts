@@ -17,6 +17,7 @@ import { DAY } from 'src/app/core/mocks/day.list';
   styleUrls: ['./session.component.scss']
 })
 export class SessionComponent implements OnInit, OnChanges {
+
   @Input() workplace: WorkPlaceDTO;
   @Input() sessions: SessionInfoDTO[] = [];
 
@@ -52,7 +53,7 @@ export class SessionComponent implements OnInit, OnChanges {
   async addSessionsModal() {
     const modal = await this.modalController.create({
       component: AddSessionModalComponent,
-      componentProps: {}
+      componentProps: {workplace: this.workplace , dayNumber: this.dayNames.indexOf(this.currentDay)}
     });
     modal.present();
   }

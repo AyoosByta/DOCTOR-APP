@@ -59,3 +59,7 @@
     </ion-row>
   </ion-grid>
 </ion-content>
+
+<ion-footer  *ngIf="status==='completed'">
+  <ion-button color="secondary" expand="block" margin (click)="downloadPrescription()">OK</ion-button>
+</ion-footer>

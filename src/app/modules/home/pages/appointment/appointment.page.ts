@@ -11,26 +11,53 @@ import { ConsultationComponent } from '../../components/consultation/consultatio
 })
 export class AppointmentPage implements OnInit {
 
-  appointments: any[];
-  
-  constructor(private util: Util,
+  pendingAppointments: any[] = [];
+
+  completedAppointments: any[] = [];
+
+  currentPage = 'pending';
+
+  constructor(
+    private util: Util,
     private modalController: ModalController
   ) { }
 
   ngOnInit() {
-    this.getAppointments();
+    this.getPendingAppointments();
+    this.getPendingAppointments();
   }
 
-  getAppointments() {
-    this.appointments = APPOINTMENTS;
+  getPendingAppointments() {
+    this.pendingAppointments = APPOINTMENTS;
   }
 
-  async startConsultation(_appointment:any) {
+  getCompletedAppointments() {
+
+  }
+
+  async startConsultation(pAppointment: any) {
     const modal = await this.modalController.create({
       component: ConsultationComponent,
-      componentProps: {appointment: _appointment}
+      componentProps: {appointment: pAppointment}
     });
 
-    return await modal.present();  }
+    modal.onDidDismiss()
+    .then(data => {
+      if (data.data !== undefined) {
+        this.pendingAppointments = this.pendingAppointments.filter(val => val !==  data.data);
+        this.completedAppointments.push(data.data);
+      }
+    });
+
+    return await modal.present();
+  }
+
+  viewConsultationHistory(a) {
+
+  }
+
+  segmentChanged(event) {
+    this.currentPage = event.detail.value;
+  }
 
 }

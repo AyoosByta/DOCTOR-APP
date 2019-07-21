@@ -4,7 +4,7 @@
         <ion-grid>
             <ion-row>
                 <ion-col size="10">
-                    <ion-badge *ngFor="let workplace of workplaces">
+                    <ion-badge padding color="secondary" *ngFor="let workplace of workplaces">
                         <ion-icon (click)="deleteWorkplace(workplace.id)" name="close"></ion-icon>
                         <ion-text (click)="updateWorkplaceModal(workplace)">{{workplace.name}}</ion-text>
                     </ion-badge>

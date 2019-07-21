@@ -40,7 +40,7 @@ export class AddWorkplaceModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if(this.updateMode === true) {
+    if (this.updateMode === true) {
       this.searchClinic = this.workPlace.name;
       this.searchLocation =  this.workPlace.locationName;
       this.selectedLocation = {};
@@ -57,7 +57,7 @@ export class AddWorkplaceModalComponent implements OnInit {
   }
 
   save() {
-    if(this.updateMode === false) {
+    if (this.updateMode === false) {
       console.log('Adding Wokplace');
       this.locationService.getGeoFromPlace(this.selectedLocation.description,
         (results, status) => {
@@ -70,11 +70,11 @@ export class AddWorkplaceModalComponent implements OnInit {
     } else {
       console.log('Updating Wokplace');
       let description = this.selectedLocation.description;
-      if(this.selectedLocation === undefined) {
+      if (this.selectedLocation === undefined) {
         description = this.workPlace.locationName;
       }
       console.log(description);
-      
+
       this.locationService.getGeoFromPlace(description,
         (results, status) => {
           const latitude = results[0].geometry.location.lat();
@@ -90,6 +90,7 @@ export class AddWorkplaceModalComponent implements OnInit {
   }
 
   select(locationData: any) {
+    this.locationSuggetions = [];
     this.selectedLocation = locationData;
     this.searchLocation = locationData.description;
     console.log(this.searchLocation);

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ParamedicalExaminationRequest } from 'src/app/api/models';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-paramedical',
@@ -11,9 +11,17 @@ export class AddParamedicalComponent implements OnInit {
 
   paramedicalInfo: ParamedicalExaminationRequest = {};
 
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController,
+    private platform: Platform) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  //Disables the backButton
+  ionViewDidEnter() {
+    this.platform.backButton.subscribe(() => {
+      // this does work
+    });
+  }
 
   saveParamedical() {
     this.modalController.dismiss(this.paramedicalInfo);

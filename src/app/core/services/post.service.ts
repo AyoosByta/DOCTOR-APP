@@ -1,7 +1,7 @@
 import { OAuthService } from 'angular-oauth2-oidc';
 import UserRepresentation from 'keycloak-admin/lib/defs/userRepresentation';
 import { GetService } from './get.service';
-import { DoctorDTO, WorkPlaceDTO } from 'src/app/api/models';
+import { DoctorDTO, WorkPlaceDTO, SessionInfoDTO } from 'src/app/api/models';
 import { KeycloakService } from './keycloak.service';
 import { DoctorService } from './doctor.service';
 import { Injectable } from '@angular/core';
@@ -65,11 +65,11 @@ export class PostService {
   }
 
 
-  public addSessions(fromTime: number , toTime: number , weekday: number , wid: number , monthList: []) {
-    this.doctorService.createSessions(fromTime , toTime , weekday , wid , monthList)
-    .subscribe(sessions => {
+  public addSessions(sessions:SessionInfoDTO[] , mnthList: number[] , success , error) {
+    this.doctorService.createSession(sessions , mnthList , ()=>{
       this.getService.initSessions(true);
-    });
+      success();
+    },error);
   }
 
   // Update Methods

@@ -1,10 +1,7 @@
-<ion-header >
+<ion-header>
   <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/home/dashboard"
-        text=""
-      ></ion-back-button>
+      <ion-back-button defaultHref="/home/dashboard" text=""></ion-back-button>
       <ion-title>Appointments</ion-title>
     </ion-buttons>
 
@@ -18,17 +15,70 @@
 
 <ion-content>
 
-      <ion-list>
+  <ion-segment (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="pending" checked>Pending</ion-segment-button>
+    <ion-segment-button value="completed">Completed</ion-segment-button>
+  </ion-segment>
 
-          <ion-item lines="full" *ngFor="let a of appointments" (click)="startConsultation(a)">
-            <ion-thumbnail slot="start">
-                <ion-img src="/assets/disease.png"></ion-img>
-            </ion-thumbnail>
-              <ion-label margin>
-                <h1>{{a.name}}</h1>
-                <p>Age: {{a.age + ' yrs'}}</p>
-                <h2>  {{a.bookingDate + ' : ' +a.bookingTime}}</h2>
-              </ion-label>
-            </ion-item>
-      </ion-list>
+
+  <ion-grid>
+    <ion-row>
+
+      <ion-col *ngIf="currentPage === 'pending'">
+          <ion-list >
+              <ion-item lines="full" *ngFor="let a of pendingAppointments" (click)="startConsultation(a)">
+                <ion-thumbnail slot="start">
+                  <ion-img src="/assets/disease.png"></ion-img>
+                </ion-thumbnail>
+                <ion-label margin>
+                  <h1>{{a.name}}</h1>
+                  <p>Age: {{a.age + ' yrs'}}</p>
+                  <h2> {{a.bookingDate + ' : ' +a.bookingTime}}</h2>
+                </ion-label>
+              </ion-item>
+            </ion-list>          
+            <ion-grid *ngIf="pendingAppointments.length === 0" class="vertical-align-center-view">
+              <ion-row>
+                <ion-col>
+                    <div >
+                        <ion-text>
+                          <h2>No Pending Appointments(0)</h2>
+                        </ion-text>
+                      </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+      </ion-col>
+
+      <ion-col *ngIf="currentPage === 'completed'">
+          <ion-list >
+              <ion-item lines="full" *ngFor="let a of completedAppointments" (click)="viewConsultationHistory(a)">
+                <ion-thumbnail slot="start">
+                  <ion-img src="/assets/disease.png"></ion-img>
+                </ion-thumbnail>
+                <ion-label margin>
+                  <h1>{{a.name}}</h1>
+                  <p>Age: {{a.age + ' yrs'}}</p>
+                  <h2> {{a.bookingDate + ' : ' +a.bookingTime}}</h2>
+                </ion-label>
+              </ion-item>
+            </ion-list>  
+            <ion-grid *ngIf="completedAppointments.length === 0" class="vertical-align-center-view">
+                <ion-row>
+                  <ion-col>
+                      <div >
+                          <ion-text>
+                            <h4>No Completed Appointments(0)</h4>
+                          </ion-text>
+                        </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>      
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+  
 </ion-content>

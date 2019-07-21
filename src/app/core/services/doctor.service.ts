@@ -39,15 +39,14 @@ export class DoctorService {
     return this.commandResourceService.createWorkPlaceUsingPOST(workplace);
   }
 
-  createSessions(fromTime: number , toTime: number , weekday: number , wid: number , monthList: []) {
-    const sessionInfo: SessionInfoDTO = {};
-    sessionInfo.fromTime = fromTime;
-    sessionInfo.toTime = toTime;
-    sessionInfo.weekDay = weekday;
-    sessionInfo.workPlaceId = wid;
-    return this.commandResourceService.createSessionInfoUsingPOST({
-      monthList: [1, 2, 3],
-      sessionInfoDTO: [sessionInfo]
+  createSession(sessions: SessionInfoDTO[] , mnth: number[] , success , error) {
+    this.commandResourceService.createSessionInfoUsingPOST({
+          monthList: mnth,
+          sessionInfoDTO: sessions
+    }).subscribe(data => {
+      success();
+    },err=>{
+      error();
     });
   }
 

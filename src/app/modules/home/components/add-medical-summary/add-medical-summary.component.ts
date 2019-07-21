@@ -31,8 +31,10 @@ export class AddMedicalSummaryComponent implements OnInit {
 
   constructor(private modalController: ModalController) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
+
+  
   saveMedicalSummary() {
 
     var date = new Date();
@@ -40,7 +42,7 @@ export class AddMedicalSummaryComponent implements OnInit {
     this.consultationInfo.symptom = this.selectedSymptoms;
     this.consultationInfo.examinationRequired = 'no';
     this.consultationInfo.date =
-     date.getMonth() + '-' + date.getUTCDay() + '-' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+      date.getMonth() + '-' + date.getUTCDay() + '-' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
     this.modalController.dismiss(this.consultationInfo);
   }
 
@@ -50,25 +52,25 @@ export class AddMedicalSummaryComponent implements OnInit {
 
     this.tmpOptionsDiagnosis = [];
 
-    switch(type) {
+    switch (type) {
       case 'diagnosis': tmpArray = this.daignosis;
-      if(this.inputValueDiagnosis.length != 0) {
-        for(let option of tmpArray) {
-          if(this.inputValueDiagnosis.substr(0 , this.inputValueDiagnosis.length).toUpperCase() === option.name.substr(0,this.inputValueDiagnosis.length).toUpperCase()) {
-            this.tmpOptionsDiagnosis.push(option);
+        if (this.inputValueDiagnosis.length != 0) {
+          for (let option of tmpArray) {
+            if (this.inputValueDiagnosis.substr(0, this.inputValueDiagnosis.length).toUpperCase() === option.name.substr(0, this.inputValueDiagnosis.length).toUpperCase()) {
+              this.tmpOptionsDiagnosis.push(option);
+            }
           }
-        }  
-      }break;
+        } break;
       case 'symptoms': tmpArray = this.symptoms;
-      if(this.inputValueSymptoms.length != 0) {
-        for(let option of tmpArray) {
-          if(this.inputValueSymptoms.substr(0 , this.inputValueSymptoms.length).toUpperCase() === option.name.substr(0,this.inputValueSymptoms.length).toUpperCase()) {
-            this.tmpOptionsSymptoms.push(option);
+        if (this.inputValueSymptoms.length != 0) {
+          for (let option of tmpArray) {
+            if (this.inputValueSymptoms.substr(0, this.inputValueSymptoms.length).toUpperCase() === option.name.substr(0, this.inputValueSymptoms.length).toUpperCase()) {
+              this.tmpOptionsSymptoms.push(option);
+            }
           }
-        }  
-      }break;
+        } break;
     }
-    
+
   }
 
   selectDiagnosis(d) {

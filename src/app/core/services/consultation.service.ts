@@ -29,7 +29,7 @@ export class ConsultationService {
     console.log('Getting ProcessInstanceId with token', token);
     this.commandResourceService
       .initiateUsingPOST({
-        token: token
+        token
       })
       .subscribe(data => {
         this.processInstanceId = data;
@@ -48,7 +48,7 @@ export class ConsultationService {
 
 
   collectParamedicalInfo(value, success) {
-    var status = { paramedRequired: 'no' };
+    let status = { paramedRequired: 'no' };
     if (value === true) {
       status.paramedRequired = 'yes';
     }
@@ -122,29 +122,32 @@ export class ConsultationService {
   }
 
 
-  downloadPrescription() {
+  downloadPrescription(fileName , success , error) {
 
     this.queryResourceService.getPrescriptionAsPDFUsingGET()
       .subscribe((str: any) => {
 
         console.log(str);
 
-        var blob = str;
-        //var blob = new Blob([arrBuffer], { type: 'application/pdf' });
+        let blob = str;
+        // var blob = new Blob([arrBuffer], { type: 'application/pdf' });
 
-        console.log("Blob**" + blob.length);
-        this.file.createFile(this.file.externalCacheDirectory, 'new.pdf', true).then(() => {
+        console.log('Blob**' + blob.length);
+        this.file.createFile(this.file.externalCacheDirectory, fileName, true).then(() => {
           console.log('file created' + blob);
-          this.file.writeFile(this.file.externalCacheDirectory, 'new.pdf', blob, { replace: true })
+          this.file.writeFile(this.file.externalCacheDirectory, fileName, blob, { replace: true })
           .then((value) => {
               console.log('file writed' + value);
-              this.documentViewer.viewDocument(this.file.externalCacheDirectory + 'new.pdf', 'application/pdf', {});
-            });
-        });
+              this.documentViewer.viewDocument(this.file.externalCacheDirectory + fileName, 'application/pdf', {});
+              success();
+            })
+            .catch(error);
+        })
+        .catch(error);
 
       },
-      err=>{
-        alert('Unable to Download Pdf')
+      err => {
+        error();
       });
   }
 }

@@ -1,7 +1,7 @@
 
 <ion-fab vertical="top" horizontal="end" slot="fixed">
   <ion-fab-button (click)="addSessionsModal()">
-    <ion-icon name="add"></ion-icon>
+      <ion-icon name="time"></ion-icon>
   </ion-fab-button>
 </ion-fab>
   <ion-grid class="info" no-margin>
@@ -47,7 +47,7 @@
           </ion-grid>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="currentDayListSessions.length <= 0">
+      <ion-row *ngIf="currentDayListSessions.length <= 0" class="vertical-align-center-view heightAdjust">
         <ion-col>
           <ion-text>No Session Set For {{currentDayFullName}}</ion-text>
         </ion-col>

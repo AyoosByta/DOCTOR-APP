@@ -16,38 +16,39 @@ export class PrescriptionListComponent implements OnInit {
     private modalController: ModalController
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
 
   async addPrescription() {
     const modal = await this.modalController.create({
       component: AddPrescriptionComponent
     })
     modal.onDidDismiss()
-    .then(data => {
-      if(data.data != undefined) {
-        this.prescriptions.push(data.data);
-      }
-    });
+      .then(data => {
+        if (data.data != undefined) {
+          this.prescriptions.push(data.data);
+        }
+      });
 
     modal.present();
   }
 
   removePrescription(p) {
-    this.prescriptions = this.prescriptions.filter(val=>val != p);
+    this.prescriptions = this.prescriptions.filter(val => val != p);
   }
 
   async editPrescription(p) {
     const modal = await this.modalController.create({
       component: AddPrescriptionComponent,
-      componentProps:{prescription:p}
+      componentProps: { prescription: p }
     })
     modal.onDidDismiss()
-    .then(data => {
-      if(data.data != undefined) {
-        this.prescriptions = this.prescriptions.filter(val=>val != p);
-        this.prescriptions.push(data.data);
-      }
-    });
+      .then(data => {
+        if (data.data != undefined) {
+          this.prescriptions = this.prescriptions.filter(val => val != p);
+          this.prescriptions.push(data.data);
+        }
+      });
 
     modal.present();
   }

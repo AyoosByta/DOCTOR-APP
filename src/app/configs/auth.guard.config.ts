@@ -1,6 +1,7 @@
 import { OAuthService, JwksValidationHandler, AuthConfig } from 'angular-oauth2-oidc';
 import { filter } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { Util } from '../core/util/util';
 
 
 export const authConfig: AuthConfig = {
@@ -20,7 +21,8 @@ export const authConfig: AuthConfig = {
 export class AuthGuardConfig {
 
     constructor(
-        private oauthService: OAuthService
+        private oauthService: OAuthService,
+        private util: Util
     ) {
         this.configureWithNewConfigApi();
     }
@@ -39,6 +41,9 @@ export class AuthGuardConfig {
         this.oauthService.events.subscribe(e => {
           // tslint:disable-next-line:no-console
           console.debug('oauth/oidc event', e);
+          if (e.type === 'silent_refresh_timeout') {
+            this.util.navigateLogin();
+          }
         });
 
         this.oauthService.events

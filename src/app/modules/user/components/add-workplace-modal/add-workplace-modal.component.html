@@ -35,7 +35,7 @@
                   <ion-button expand="block" fill="outline" (click)="cancel()">Cancel</ion-button>
             </ion-col>
             <ion-col>
-                  <ion-button [disabled]="selectedLocation === undefined" expand="block" fill="outline" (click)="save()">Save</ion-button>
+                  <ion-button [disabled]="selectedLocation === undefined || excludes.includes(searchClinic)" expand="block" fill="outline" (click)="save()">Save</ion-button>
             </ion-col>
         </ion-row>
     </ion-grid>
