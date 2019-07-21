@@ -16,12 +16,15 @@ export class ConsultationComponent implements OnInit {
   status = null;
 
   appointment;
+  
+  prescriptionPdf;
 
   constructor(
     private modalController:ModalController,
     private  consultationService: ConsultationService,
     private alertController: AlertController,
-    private util: Util
+    private util: Util,
+    
   ) { }
 
   ngOnInit() {}
@@ -85,6 +88,8 @@ export class ConsultationComponent implements OnInit {
         this.consultationService.saveParamedicalInfo(data.data , ()=>{
           this.showAddMedicalSummary();
         })  
+      } else {
+        this.status = 'canceled';
       }
     })
     modal.present();
@@ -102,6 +107,8 @@ export class ConsultationComponent implements OnInit {
         this.consultationService.saveMedicalSummary(data.data, ()=>{
           this.showPrescription();
         })
+      } else {
+        this.status = 'canceled';
       }
     })
     modal.present();
@@ -117,11 +124,18 @@ export class ConsultationComponent implements OnInit {
         console.log('Saving Prescription' , data.data);
         this.consultationService.savePrescription(data.data , ()=>{
             this.status = 'completed';
+            // this.consultationService.downloadPrescription();
         });
+      } else {
+        this.status = 'canceled';
       }
     })
     modal.present();
   }
 
+  downloadPrescription() {
+    this.consultationService.downloadPrescription();
+  }
+ 
 
 }

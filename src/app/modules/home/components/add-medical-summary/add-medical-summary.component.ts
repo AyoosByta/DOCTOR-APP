@@ -82,4 +82,9 @@ export class AddMedicalSummaryComponent implements OnInit {
     this.tmpOptionsSymptoms = [];
     this.inputValueSymptoms = '';
   }
+
+
+  dismiss() {
+    this.modalController.dismiss();
+  }
 }

@@ -27,7 +27,7 @@
                 <h4>{{appointment.age}} yrs</h4>
               </ion-text>
             </ion-col>
-            <ion-col size="12" text-center>
+            <ion-col size="12" text-center *ngIf="status !== 'completed'">
               <ion-text color="success">
                 <h3>{{appointment.bookingDate + ' ' + appointment.bookingTime}}</h3>
               </ion-text>
@@ -38,12 +38,21 @@
             <ion-col text-center *ngIf="status==='waiting'">
               <ion-text color="primary">Waiting...</ion-text>
             </ion-col>
+            <ion-col text-center *ngIf="status==='canceled'">
+              <ion-text color="danger">
+                <h2>Canceled</h2>
+              </ion-text>
+              <ion-button (click)="startConsultation()" full-width color="success">Start Consultation</ion-button>
+            </ion-col>
             <ion-col text-center *ngIf="status==='completed'">
-                <ion-text  color="success">
-                  <h2>Completed</h2>
-                </ion-text>
-              </ion-col>
-
+              <ion-text color="success">
+                <h2>Completed</h2>
+                <p>{{appointment.bookingDate + ' ' + appointment.bookingTime}}</p>
+              </ion-text>
+              <ion-button (click)="downloadPrescription()">
+                Download Prescription
+              </ion-button>
+            </ion-col>
           </ion-row>
         </ion-grid>
       </ion-col>

@@ -15,6 +15,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
+import { File } from '@ionic-native/file/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +33,8 @@ import { environment } from '../environments/environment';
 
   ],
   providers: [
+    File,
+    DocumentViewer,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy } ,

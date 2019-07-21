@@ -19,4 +19,8 @@ export class AddParamedicalComponent implements OnInit {
     this.modalController.dismiss(this.paramedicalInfo);
   }
 
+  dismiss() {
+    this.modalController.dismiss();
+  }
+
 }

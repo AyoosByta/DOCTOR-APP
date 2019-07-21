@@ -55,4 +55,8 @@ export class PrescriptionListComponent implements OnInit {
   savePrescription() {
     this.modalController.dismiss(this.prescriptions)
   }
+
+  dismiss() {
+    this.modalController.dismiss();
+  }
 }

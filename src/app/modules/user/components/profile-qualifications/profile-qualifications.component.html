@@ -3,7 +3,7 @@
     <ion-grid>
         <ion-row>
             <ion-col size="10">
-                <ion-badge *ngFor="let qualification of qualifications">
+                <ion-badge padding *ngFor="let qualification of qualifications">
                     <ion-icon (click)="deleteQualification(qualification.id)" name="close"></ion-icon>
                     {{qualification.qualification}}
                 </ion-badge>
