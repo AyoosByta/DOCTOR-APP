@@ -83,8 +83,9 @@ export class AddSessionModalComponent implements OnInit {
   }
 
   saveSession() {
+    console.table(this.arraySession);
     if (this.arraySession.length > 0) {
-      this.postService.addSessions(this.arraySession, this.mnthList , () => {
+      this.postService.addSessions(this.arraySession, this.mnthList , () => { this.dismiss();
 
       }, () => {    });
     } else {
@@ -98,7 +99,7 @@ export class AddSessionModalComponent implements OnInit {
   }
 
   editSession(session) {
-    
+
   }
 
 }

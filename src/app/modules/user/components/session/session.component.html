@@ -24,8 +24,8 @@
     </ion-row>
     <ion-grid>
       <ion-row *ngIf="currentDayListSessions.length > 0">
-        <ion-col *ngFor="let session of currentDayListSessions" size="4">
-          <ion-grid>
+        <ion-col class="col" *ngFor="let session of currentDayListSessions" size="6">
+          <!-- <ion-grid>
             <ion-row>
               <ion-col text-center>
                {{session.interval}}
@@ -44,7 +44,25 @@
               {{session.date}}
             </ion-col>
             </ion-row>
-          </ion-grid>
+          </ion-grid> -->
+
+          <table>
+            <thead>
+              <tr>
+                <td colspan="2">{{session.date}}</td>
+              </tr>
+            </thead>
+            <tr>
+              <td> {{session.fromTime}}</td>
+              <td>{{session.toTime}}</td>
+            </tr>
+            <tfoot>
+                <tr>
+                    <td colspan="2">{{session.interval}}</td>
+                  </tr>
+            </tfoot>
+          </table>
+
         </ion-col>
       </ion-row>
       <ion-row *ngIf="currentDayListSessions.length <= 0" class="vertical-align-center-view heightAdjust">

@@ -53,7 +53,7 @@ export class SessionComponent implements OnInit, OnChanges {
   async addSessionsModal() {
     const modal = await this.modalController.create({
       component: AddSessionModalComponent,
-      componentProps: {workplace: this.workplace , dayNumber: this.dayNames.indexOf(this.currentDay)}
+      componentProps: {workplace: this.workplace , dayNumber: this.dayNames.indexOf(this.currentDay) + 1}
     });
     modal.present();
   }

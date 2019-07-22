@@ -22,10 +22,19 @@ export class AddSingleSessionModalComponent implements OnInit {
 
   ngOnInit() {}
 
+  timeStringToFloat(time) {
+    const hoursMinutes = time.split(/[.:]/);
+    const hours = parseInt(hoursMinutes[0], 10);
+    const minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0;
+    return Math.round((hours + minutes / 60));
+  }
+
 
   addSession() {
     this.session.workPlaceId = this.workplace.id;
     this.session.weekDay = this.dayNumber;
+    this.session.fromTime = this.timeStringToFloat(this.session.fromTime);
+    this.session.toTime = this.timeStringToFloat(this.session.toTime);
     this.modalController.dismiss(this.session);
   }
 
