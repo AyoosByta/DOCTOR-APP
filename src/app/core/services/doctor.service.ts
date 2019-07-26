@@ -88,10 +88,11 @@ export class DoctorService {
     });
   }
 
-  getDoctorSessions(username: string , wid: number) {
+  getDoctorSessions(username: string , wid: number , pageNumber) {
     return this.queryResourceService.findAllSesionInfoByDoctorsWorkPlaceUsingGET({
       doctorId: username,
-      workPlaceId: wid
+      workPlaceId: wid,
+      page:pageNumber
     });
   }
 }

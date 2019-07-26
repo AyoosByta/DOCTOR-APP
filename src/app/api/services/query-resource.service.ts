@@ -13,8 +13,10 @@ import { ContactInfoDTO } from '../models/contact-info-dto';
 import { DoctorDTO } from '../models/doctor-dto';
 import { WorkPlaceDTO } from '../models/work-place-dto';
 import { OpenAppointmentResponse } from '../models/open-appointment-response';
+import { PdfDTO } from '../models/pdf-dto';
 import { QualificationDTO } from '../models/qualification-dto';
 import { PageOfReview } from '../models/page-of-review';
+import { PageOfSessionInfo } from '../models/page-of-session-info';
 import { SessionInfoDTO } from '../models/session-info-dto';
 import { DataResponse } from '../models/data-response';
 
@@ -32,6 +34,7 @@ class QueryResourceService extends __BaseService {
   static readonly findAllWorkPlacesByDoctorIdUsingGETPath = '/api/queries/findworkplacesBydoctorId/{doctorId}';
   static readonly getOpenAppointmentsUsingGETPath = '/api/queries/open-appointments';
   static readonly getPrescriptionAsPDFUsingGETPath = '/api/queries/prescription-as-pdf';
+  static readonly exportPrescriptionAsPdfUsingGETPath = '/api/queries/prescription/pdf';
   static readonly findAllQualificationByDoctorIdUsingGETPath = '/api/queries/qualification/{doctorId}';
   static readonly findAllQualificationUsingGETPath = '/api/queries/qualifications/{searchTerm}';
   static readonly findAllReviewUsingGETPath = '/api/queries/review';
@@ -331,6 +334,39 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @return OK
+   */
+  exportPrescriptionAsPdfUsingGETResponse(): __Observable<__StrictHttpResponse<PdfDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/queries/prescription/pdf`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PdfDTO>;
+      })
+    );
+  }
+  /**
+   * @return OK
+   */
+  exportPrescriptionAsPdfUsingGET(): __Observable<PdfDTO> {
+    return this.exportPrescriptionAsPdfUsingGETResponse().pipe(
+      __map(_r => _r.body as PdfDTO)
+    );
+  }
+
+  /**
    * @param doctorId doctorId
    * @return OK
    */
@@ -490,7 +526,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  findAllSesionInfoByDoctorsWorkPlaceUsingGETResponse(params: QueryResourceService.FindAllSesionInfoByDoctorsWorkPlaceUsingGETParams): __Observable<__StrictHttpResponse<Array<SessionInfoDTO>>> {
+  findAllSesionInfoByDoctorsWorkPlaceUsingGETResponse(params: QueryResourceService.FindAllSesionInfoByDoctorsWorkPlaceUsingGETParams): __Observable<__StrictHttpResponse<PageOfSessionInfo>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -512,7 +548,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<SessionInfoDTO>>;
+        return _r as __StrictHttpResponse<PageOfSessionInfo>;
       })
     );
   }
@@ -531,9 +567,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  findAllSesionInfoByDoctorsWorkPlaceUsingGET(params: QueryResourceService.FindAllSesionInfoByDoctorsWorkPlaceUsingGETParams): __Observable<Array<SessionInfoDTO>> {
+  findAllSesionInfoByDoctorsWorkPlaceUsingGET(params: QueryResourceService.FindAllSesionInfoByDoctorsWorkPlaceUsingGETParams): __Observable<PageOfSessionInfo> {
     return this.findAllSesionInfoByDoctorsWorkPlaceUsingGETResponse(params).pipe(
-      __map(_r => _r.body as Array<SessionInfoDTO>)
+      __map(_r => _r.body as PageOfSessionInfo)
     );
   }
 

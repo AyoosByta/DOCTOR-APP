@@ -1,3 +1,4 @@
+import { PdfDTO } from './../../api/models/pdf-dto';
 import { Injectable } from '@angular/core';
 import { CommandResourceService, QueryResourceService } from 'src/app/api/services';
 import { ParamedicalExaminationRequest, ConsultationRequest, PrescriptionRequest } from 'src/app/api/models';
@@ -124,15 +125,19 @@ export class ConsultationService {
 
   downloadPrescription(fileName , success , error) {
 
-    this.queryResourceService.getPrescriptionAsPDFUsingGET()
-      .subscribe((str: any) => {
+    this.queryResourceService.exportPrescriptionAsPdfUsingGET()
+      .subscribe((pdf: PdfDTO ) => {
 
-        console.log(str);
 
-        let blob = str;
-        // var blob = new Blob([arrBuffer], { type: 'application/pdf' });
+        const byteCharacters = atob(pdf.pdf);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], {type: pdf.contentType});
 
-        console.log('Blob**' + blob.length);
+        console.log('Blob**' + blob);
         this.file.createFile(this.file.externalCacheDirectory, fileName, true).then(() => {
           console.log('file created' + blob);
           this.file.writeFile(this.file.externalCacheDirectory, fileName, blob, { replace: true })

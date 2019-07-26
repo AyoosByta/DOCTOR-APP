@@ -1,3 +1,4 @@
+import { AddDiagnosisModalComponent } from './add-diagnosis-modal/add-diagnosis-modal.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -11,15 +12,28 @@ import { PrescriptionListComponent } from './prescription-list/prescription-list
 import { AddPrescriptionComponent } from './add-prescription/add-prescription.component';
 
 @NgModule({
-  imports: [
-    IonicModule,
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    NgbModule
+  imports: [IonicModule, CommonModule, FormsModule, SharedModule, NgbModule],
+  declarations: [
+    ConsultationComponent,
+    AddParamedicalComponent,
+    AddMedicalSummaryComponent,
+    PrescriptionListComponent,
+    AddPrescriptionComponent,
+    AddDiagnosisModalComponent
   ],
-  declarations: [ConsultationComponent,AddParamedicalComponent , AddMedicalSummaryComponent, PrescriptionListComponent , AddPrescriptionComponent],
-  exports: [ConsultationComponent,AddParamedicalComponent,AddMedicalSummaryComponent, PrescriptionListComponent , AddPrescriptionComponent],
-  entryComponents: [AddParamedicalComponent,AddMedicalSummaryComponent , PrescriptionListComponent , AddPrescriptionComponent]
+  exports: [
+    ConsultationComponent,
+    AddParamedicalComponent,
+    AddMedicalSummaryComponent,
+    PrescriptionListComponent,
+    AddPrescriptionComponent
+  ],
+  entryComponents: [
+    AddParamedicalComponent,
+    AddMedicalSummaryComponent,
+    PrescriptionListComponent,
+    AddPrescriptionComponent,
+    AddDiagnosisModalComponent
+  ]
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

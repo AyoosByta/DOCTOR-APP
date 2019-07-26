@@ -1,27 +1,14 @@
+import { AddDiagnosisModalComponent } from './../add-diagnosis-modal/add-diagnosis-modal.component';
 import { Component, OnInit } from '@angular/core';
-import { DIAGNOSIS } from 'src/app/core/mocks/diagnosis.mock';
-import { SYMPTOMS } from 'src/app/core/mocks/symptoms';
 import { ConsultationRequest } from 'src/app/api/models';
 import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-medical-summary',
   templateUrl: './add-medical-summary.component.html',
-  styleUrls: ['./add-medical-summary.component.scss'],
+  styleUrls: ['./add-medical-summary.component.scss']
 })
 export class AddMedicalSummaryComponent implements OnInit {
-
-  daignosis = DIAGNOSIS;
-
-  symptoms = SYMPTOMS;
-
-  tmpOptionsDiagnosis = [];
-
-  tmpOptionsSymptoms = [];
-
-  inputValueDiagnosis;
-
-  inputValueSymptoms;
 
   selectedDiagnosis = [];
 
@@ -29,62 +16,57 @@ export class AddMedicalSummaryComponent implements OnInit {
 
   consultationInfo: ConsultationRequest = {};
 
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
-
-  
   saveMedicalSummary() {
-
-    var date = new Date();
+    const date = new Date();
     this.consultationInfo.evaluation = this.selectedDiagnosis;
     this.consultationInfo.symptom = this.selectedSymptoms;
     this.consultationInfo.examinationRequired = 'no';
     this.consultationInfo.date =
-      date.getMonth() + '-' + date.getUTCDay() + '-' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes();
+      date.getMonth() +
+      '-' +
+      date.getUTCDay() +
+      '-' +
+      date.getFullYear() +
+      ' ' +
+      date.getHours() +
+      ':' +
+      date.getMinutes();
     this.modalController.dismiss(this.consultationInfo);
   }
 
-  findMatching(type) {
+  removeDiagnosis(d) {
+    this.selectedDiagnosis = this.selectedDiagnosis.filter(val=>val != d);
+  }
+  removeSymptoms(s) {
+    this.selectedSymptoms = this.selectedSymptoms.filter(val=>val != s);
+  }
 
-    let tmpArray = [];
+  async addDiagnosisModal() {
+    const modal = await this.modalController.create({
+      component: AddDiagnosisModalComponent
+    });
 
-    this.tmpOptionsDiagnosis = [];
-
-    switch (type) {
-      case 'diagnosis': tmpArray = this.daignosis;
-        if (this.inputValueDiagnosis.length != 0) {
-          for (let option of tmpArray) {
-            if (this.inputValueDiagnosis.substr(0, this.inputValueDiagnosis.length).toUpperCase() === option.name.substr(0, this.inputValueDiagnosis.length).toUpperCase()) {
-              this.tmpOptionsDiagnosis.push(option);
-            }
+    modal.onDidDismiss().then(data => {
+      console.log(data);
+      if (data.data !== undefined) {
+        data.data.forEach(element => {
+          if (!this.selectedDiagnosis.includes(element)) {
+            this.selectedDiagnosis.push(element);
           }
-        } break;
-      case 'symptoms': tmpArray = this.symptoms;
-        if (this.inputValueSymptoms.length != 0) {
-          for (let option of tmpArray) {
-            if (this.inputValueSymptoms.substr(0, this.inputValueSymptoms.length).toUpperCase() === option.name.substr(0, this.inputValueSymptoms.length).toUpperCase()) {
-              this.tmpOptionsSymptoms.push(option);
-            }
-          }
-        } break;
-    }
+        });
+      }
+    });
 
+    modal.present();
   }
 
-  selectDiagnosis(d) {
-    this.selectedDiagnosis.push(d);
-    this.tmpOptionsDiagnosis = [];
-    this.inputValueDiagnosis = '';
-  }
+  async addSymptomsModal() {
 
-  selectSymptoms(s) {
-    this.selectedSymptoms.push(s);
-    this.tmpOptionsSymptoms = [];
-    this.inputValueSymptoms = '';
   }
-
 
   dismiss() {
     this.modalController.dismiss();

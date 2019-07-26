@@ -33,6 +33,7 @@ export class LoginPage implements OnInit {
         .then(status => {
           if (status == true) {
             loading.dismiss();
+            this.getService.forceReset();
             this.util.navigateRoot();
           }
           loading.dismiss();
@@ -51,6 +52,7 @@ export class LoginPage implements OnInit {
         .authenticate(this.username, this.password)
         .then(data => {
           loading.dismiss();
+          this.getService.forceReset();
           this.util.navigateRoot();
         })
         .catch(err => {
