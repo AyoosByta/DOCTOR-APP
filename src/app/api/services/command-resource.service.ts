@@ -38,10 +38,12 @@ class CommandResourceService extends __BaseService {
   static readonly deleteContactInfoUsingDELETEPath = '/api/commands/contact-infos/{id}';
   static readonly testUsingPOSTPath = '/api/commands/doc';
   static readonly createDoctorSettingUsingPOSTPath = '/api/commands/doctorSettings';
+  static readonly updateDoctorSettingUsingPUTPath = '/api/commands/doctorSettings';
   static readonly createDoctorUsingPOSTPath = '/api/commands/doctors';
   static readonly updateDoctorUsingPUTPath = '/api/commands/doctors';
   static readonly initiateUsingPOSTPath = '/api/commands/initiate-Consultation';
   static readonly createPaymentSettingUsingPOSTPath = '/api/commands/paymentSettings';
+  static readonly updatePaymentSettingUsingPUTPath = '/api/commands/paymentSettings';
   static readonly getProcessAppointmentRequestUsingPOSTPath = '/api/commands/processAppointmentRequest/{taskId}';
   static readonly createQualificationUsingPOSTPath = '/api/commands/qualifications';
   static readonly updateQualificationUsingPUTPath = '/api/commands/qualifications';
@@ -407,6 +409,42 @@ class CommandResourceService extends __BaseService {
   }
 
   /**
+   * @param doctorSettingsDTO doctorSettingsDTO
+   * @return OK
+   */
+  updateDoctorSettingUsingPUTResponse(doctorSettingsDTO: DoctorSettingsDTO): __Observable<__StrictHttpResponse<DoctorSettingsDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = doctorSettingsDTO;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/commands/doctorSettings`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<DoctorSettingsDTO>;
+      })
+    );
+  }
+  /**
+   * @param doctorSettingsDTO doctorSettingsDTO
+   * @return OK
+   */
+  updateDoctorSettingUsingPUT(doctorSettingsDTO: DoctorSettingsDTO): __Observable<DoctorSettingsDTO> {
+    return this.updateDoctorSettingUsingPUTResponse(doctorSettingsDTO).pipe(
+      __map(_r => _r.body as DoctorSettingsDTO)
+    );
+  }
+
+  /**
    * @param doctorDTO doctorDTO
    * @return OK
    */
@@ -546,6 +584,42 @@ class CommandResourceService extends __BaseService {
    */
   createPaymentSettingUsingPOST(paymentSettingsDTO: PaymentSettingsDTO): __Observable<PaymentSettingsDTO> {
     return this.createPaymentSettingUsingPOSTResponse(paymentSettingsDTO).pipe(
+      __map(_r => _r.body as PaymentSettingsDTO)
+    );
+  }
+
+  /**
+   * @param paymentSettingsDTO paymentSettingsDTO
+   * @return OK
+   */
+  updatePaymentSettingUsingPUTResponse(paymentSettingsDTO: PaymentSettingsDTO): __Observable<__StrictHttpResponse<PaymentSettingsDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = paymentSettingsDTO;
+    let req = new HttpRequest<any>(
+      'PUT',
+      this.rootUrl + `/api/commands/paymentSettings`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PaymentSettingsDTO>;
+      })
+    );
+  }
+  /**
+   * @param paymentSettingsDTO paymentSettingsDTO
+   * @return OK
+   */
+  updatePaymentSettingUsingPUT(paymentSettingsDTO: PaymentSettingsDTO): __Observable<PaymentSettingsDTO> {
+    return this.updatePaymentSettingUsingPUTResponse(paymentSettingsDTO).pipe(
       __map(_r => _r.body as PaymentSettingsDTO)
     );
   }

@@ -47,6 +47,11 @@ export class SessionComponent implements OnInit, OnChanges {
           this.currentDayListSessions.push(session);
         }
       });
+      // Sorting Sessions via Date
+      this.currentDayListSessions = this.currentDayListSessions.sort((a,b)=> {
+        var dateA:any = new Date(a.date), dateB:any = new Date(b.date);
+        return dateA - dateB;
+      });
     }
    }
 

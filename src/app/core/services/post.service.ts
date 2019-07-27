@@ -1,7 +1,8 @@
+import { DoctorSettingsDTO } from './../../api/models/doctor-settings-dto';
 import { OAuthService } from 'angular-oauth2-oidc';
 import UserRepresentation from 'keycloak-admin/lib/defs/userRepresentation';
 import { GetService } from './get.service';
-import { DoctorDTO, WorkPlaceDTO, SessionInfoDTO } from 'src/app/api/models';
+import { DoctorDTO, WorkPlaceDTO, SessionInfoDTO, PaymentSettingsDTO } from 'src/app/api/models';
 import { KeycloakService } from './keycloak.service';
 import { DoctorService } from './doctor.service';
 import { Injectable } from '@angular/core';
@@ -65,7 +66,7 @@ export class PostService {
   }
 
 
-  public addSessions(sessions:SessionInfoDTO[] , mnthList: number[] , success , error) {
+  public addSessions(sessions: SessionInfoDTO[] , mnthList: number[] , success , error) {
     this.doctorService.createSession(sessions , mnthList , ()=>{
       this.getService.initSessions(true);
       success();
@@ -93,6 +94,23 @@ export class PostService {
     this.doctorService.updateWorkplace(workplace)
     .subscribe(workplaceResult => {
       this.getService.initWorkplaces(true);
+    });
+  }
+
+
+  public updateDoctorSettings(doctorSettings: DoctorSettingsDTO , success) {
+    this.doctorService.updateDoctorSettings(doctorSettings)
+    .subscribe(result=> {
+      success();
+      this.getService.initDoctorSettings(true);
+    });
+  }
+
+  public updatePaymentSettings(paymentSettings: PaymentSettingsDTO , success) {
+    this.doctorService.updatePaymentSettings(paymentSettings)
+    .subscribe(result=> {
+      success();
+      this.getService.initPaymentSettings(true);
     });
   }
 

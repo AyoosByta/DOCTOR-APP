@@ -10,9 +10,11 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 import { ReservedSlotDTO } from '../models/reserved-slot-dto';
 import { PageOfAppointment } from '../models/page-of-appointment';
 import { ContactInfoDTO } from '../models/contact-info-dto';
+import { DoctorSettingsDTO } from '../models/doctor-settings-dto';
 import { DoctorDTO } from '../models/doctor-dto';
 import { WorkPlaceDTO } from '../models/work-place-dto';
 import { OpenAppointmentResponse } from '../models/open-appointment-response';
+import { PaymentSettingsDTO } from '../models/payment-settings-dto';
 import { PdfDTO } from '../models/pdf-dto';
 import { QualificationDTO } from '../models/qualification-dto';
 import { PageOfReview } from '../models/page-of-review';
@@ -30,9 +32,11 @@ class QueryResourceService extends __BaseService {
   static readonly findSlotsUsingGETPath = '/api/queries/Dr-slots/{date}/{doctorId}';
   static readonly getAppointmentsByDoctorIdUsingGETPath = '/api/queries/appointments/{searchTerm}';
   static readonly findContactInfoUsingGETPath = '/api/queries/contact-infos/{searchTerm}';
+  static readonly findDoctorSettingsUsingGETPath = '/api/queries/doctor-settings/{id}';
   static readonly findDoctorUsingGETPath = '/api/queries/doctor/{searchTerm}';
   static readonly findAllWorkPlacesByDoctorIdUsingGETPath = '/api/queries/findworkplacesBydoctorId/{doctorId}';
   static readonly getOpenAppointmentsUsingGETPath = '/api/queries/open-appointments';
+  static readonly findPaymentSettingsUsingGETPath = '/api/queries/payment-settings/{id}';
   static readonly getPrescriptionAsPDFUsingGETPath = '/api/queries/prescription-as-pdf';
   static readonly exportPrescriptionAsPdfUsingGETPath = '/api/queries/prescription/pdf';
   static readonly findAllQualificationByDoctorIdUsingGETPath = '/api/queries/qualification/{doctorId}';
@@ -193,6 +197,42 @@ class QueryResourceService extends __BaseService {
   }
 
   /**
+   * @param id id
+   * @return OK
+   */
+  findDoctorSettingsUsingGETResponse(id: number): __Observable<__StrictHttpResponse<DoctorSettingsDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/queries/doctor-settings/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<DoctorSettingsDTO>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findDoctorSettingsUsingGET(id: number): __Observable<DoctorSettingsDTO> {
+    return this.findDoctorSettingsUsingGETResponse(id).pipe(
+      __map(_r => _r.body as DoctorSettingsDTO)
+    );
+  }
+
+  /**
    * @param searchTerm searchTerm
    * @return OK
    */
@@ -297,6 +337,42 @@ class QueryResourceService extends __BaseService {
   getOpenAppointmentsUsingGET(assignee: string): __Observable<Array<OpenAppointmentResponse>> {
     return this.getOpenAppointmentsUsingGETResponse(assignee).pipe(
       __map(_r => _r.body as Array<OpenAppointmentResponse>)
+    );
+  }
+
+  /**
+   * @param id id
+   * @return OK
+   */
+  findPaymentSettingsUsingGETResponse(id: number): __Observable<__StrictHttpResponse<PaymentSettingsDTO>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/queries/payment-settings/${id}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PaymentSettingsDTO>;
+      })
+    );
+  }
+  /**
+   * @param id id
+   * @return OK
+   */
+  findPaymentSettingsUsingGET(id: number): __Observable<PaymentSettingsDTO> {
+    return this.findPaymentSettingsUsingGETResponse(id).pipe(
+      __map(_r => _r.body as PaymentSettingsDTO)
     );
   }
 

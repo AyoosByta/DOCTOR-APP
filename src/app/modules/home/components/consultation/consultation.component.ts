@@ -39,7 +39,10 @@ export class ConsultationComponent implements OnInit {
           this.status = 'waiting';
           this.showAlert();
         },
-        () => {}
+        () => {
+          loader.dismiss();
+          alert("Some Error Occured")
+        }
       );
     });
   }

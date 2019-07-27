@@ -15,8 +15,9 @@
 
 <ion-content>
 
-  <ion-segment (ionChange)="segmentChanged($event)">
-    <ion-segment-button value="pending" checked>Pending</ion-segment-button>
+  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="currentPage">
+    <ion-segment-button value="pending" *ngIf=" settings.approvalType === 'manual'">Pending</ion-segment-button>
+    <ion-segment-button value="accepted">Accepted</ion-segment-button>
     <ion-segment-button value="completed">Completed</ion-segment-button>
   </ion-segment>
 
@@ -24,9 +25,9 @@
   <ion-grid>
     <ion-row>
 
-      <ion-col *ngIf="currentPage === 'pending'">
+      <ion-col *ngIf="currentPage === 'pending' && settings.approvalType === 'manual'" >
           <ion-list >
-              <ion-item lines="full" *ngFor="let a of pendingAppointments" (click)="startConsultation(a)">
+              <ion-item lines="full" *ngFor="let a of pendingAppointments" >
                 <ion-thumbnail slot="start">
                   <ion-img src="/assets/disease.png"></ion-img>
                 </ion-thumbnail>
@@ -35,14 +36,21 @@
                   <p>Age: {{a.age + ' yrs'}}</p>
                   <h2> {{a.bookingDate + ' : ' +a.bookingTime}}</h2>
                 </ion-label>
+                <ion-button color="primary" (click)="acceptAppointment(a)">
+                  Accept
+                </ion-button>
+                <ion-button color="danger" (click)="declineAppointment(a)">
+                  Decline
+                </ion-button>
               </ion-item>
-            </ion-list>          
+            </ion-list>     
+
             <ion-grid *ngIf="pendingAppointments.length === 0" class="vertical-align-center-view">
               <ion-row>
                 <ion-col>
                     <div >
                         <ion-text>
-                          <h2>No Pending Appointments(0)</h2>
+                          <h4>No Pending Appointments(0)</h4>
                         </ion-text>
                       </div>
                 </ion-col>
@@ -50,8 +58,34 @@
             </ion-grid>
       </ion-col>
 
+      <ion-col *ngIf="currentPage === 'accepted'">
+        <ion-list>
+          <ion-item lines="full" *ngFor="let a of acceptedAppointments" (click)="startConsultation(a)">
+            <ion-thumbnail slot="start">
+              <ion-img src="/assets/disease.png"></ion-img>
+            </ion-thumbnail>
+            <ion-label margin>
+              <h1>{{a.name}}</h1>
+              <p>Age: {{a.age + ' yrs'}}</p>
+              <h2> {{a.bookingDate + ' : ' +a.bookingTime}}</h2>
+            </ion-label>
+          </ion-item>
+        </ion-list>  
+        <ion-grid *ngIf="acceptedAppointments.length === 0" class="vertical-align-center-view">
+          <ion-row>
+            <ion-col>
+                <div >
+                    <ion-text>
+                      <h4>No Accepted Appointments(0)</h4>
+                    </ion-text>
+                  </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>      
+      </ion-col>
+
       <ion-col *ngIf="currentPage === 'completed'">
-          <ion-list >
+          <ion-list>
               <ion-item lines="full" *ngFor="let a of completedAppointments" (click)="viewConsultationHistory(a)">
                 <ion-thumbnail slot="start">
                   <ion-img src="/assets/disease.png"></ion-img>
@@ -75,6 +109,7 @@
                 </ion-row>
               </ion-grid>      
       </ion-col>
+
     </ion-row>
   </ion-grid>
 

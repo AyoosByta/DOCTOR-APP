@@ -1,3 +1,4 @@
+import { AddSymptomsModalComponent } from './../add-symptoms-modal/add-symptoms-modal.component';
 import { AddDiagnosisModalComponent } from './../add-diagnosis-modal/add-diagnosis-modal.component';
 import { Component, OnInit } from '@angular/core';
 import { ConsultationRequest } from 'src/app/api/models';
@@ -65,7 +66,22 @@ export class AddMedicalSummaryComponent implements OnInit {
   }
 
   async addSymptomsModal() {
+    const modal = await this.modalController.create({
+      component: AddSymptomsModalComponent
+    });
 
+    modal.onDidDismiss().then(data => {
+      console.log(data);
+      if (data.data !== undefined) {
+        data.data.forEach(element => {
+          if (!this.selectedSymptoms.includes(element)) {
+            this.selectedSymptoms.push(element);
+          }
+        });
+      }
+    });
+
+    modal.present();
   }
 
   dismiss() {

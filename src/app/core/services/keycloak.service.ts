@@ -54,7 +54,7 @@ export class KeycloakService {
   }
 
   async authenticate(username: string, password: string): Promise<object> {
-    return await this.oauthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(
+    return await this.oauthService.fetchTokenUsingPasswordFlow (
       username,
       password,
       new HttpHeaders()

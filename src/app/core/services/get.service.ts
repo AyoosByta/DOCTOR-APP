@@ -1,3 +1,5 @@
+import { PaymentSettingsDTO } from './../../api/models/payment-settings-dto';
+import { DoctorSettingsDTO } from './../../api/models/doctor-settings-dto';
 import { SessionInfoDTO } from 'src/app/api/models';
 import { KeycloakService } from './keycloak.service';
 import { DoctorService } from './doctor.service';
@@ -7,30 +9,15 @@ import { Injectable } from '@angular/core';
 import { DoctorDTO, WorkPlaceDTO } from 'src/app/api/models';
 import { Storage } from '@ionic/storage';
 
-// TODO: Session GET
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetService {
-  constructor(
-    private doctorService: DoctorService,
-    private keycloakService: KeycloakService,
-    private storage: Storage
-  ) {
-    console.log('GetSerice Instance Created');
-    this.keycloakService.isAuthenticated().then(status => {
-      // Sessions Fix providing a default value to the SessionsBehaviour
-      this.sessionsMapMap.set(GetService._SESSIONS_KEY, new Map());
 
-      console.log('Status ', status);
-
-      if (status === true) {
-        this.forceReset();
-      }
-    });
-  }
   static _DOCTOR_KEY = 'doctor';
+  static _DOCTOR_SETTINGS_KEY = 'setting';
+  static _PAYMENT_SETTINGS_KEY = 'payment';
   static _QUALIFICATIONS_KEY = 'qualifications';
   static _WORKPLACES_KEY = 'workplaces';
   static _SESSIONS_KEY = 'sessions';
@@ -48,9 +35,14 @@ export class GetService {
   );
 
   private workplaces: WorkPlaceDTO[] = [];
-  private workplaceBehaviour = new BehaviorSubject<WorkPlaceDTO[]>(
-    this.workplaces
-  );
+  private workplaceBehaviour = new BehaviorSubject<WorkPlaceDTO[]>(this.workplaces);
+
+  private doctorSetting: DoctorSettingsDTO;
+  private doctorSettingBehaviour = new BehaviorSubject<DoctorSettingsDTO>(this.doctorSetting);
+
+  private paymentSettings: PaymentSettingsDTO;
+  private paymentSettingsBehaviour = new BehaviorSubject<PaymentSettingsDTO>(this.paymentSettings);
+
 
   private sessionsMapMap: Map<
     string,
@@ -60,6 +52,24 @@ export class GetService {
     Map<string, Map<string, SessionInfoDTO[]>>
   >(this.sessionsMapMap);
 
+  constructor(
+    private doctorService: DoctorService,
+    private keycloakService: KeycloakService,
+    private storage: Storage
+  ) {
+    console.log('GetSerice Instance Created');
+    this.keycloakService.isAuthenticated().then(status => {
+      // Sessions Fix providing a default value to the SessionsBehaviour
+      this.sessionsMapMap.set(GetService._SESSIONS_KEY, new Map());
+
+      console.log('Status ', status);
+
+      if (status === true) {
+        this.forceReset();
+      }
+    });
+  }
+
   public forceReset() {
     this.initDoctor(true);
     this.initQualifications(true);
@@ -67,10 +77,14 @@ export class GetService {
     this.initSessions(true);
   }
 
+
   public initDoctor(fromRestAPI?: boolean) {
     const func = (user: any) => {
       this.doctorService.getDoctorDetails(user.preferred_username).subscribe(
         doctor => {
+          // Setting is Retrived Using Doctor id , not with keycloak username
+          this.initDoctorSettings();
+          this.initPaymentSettings();
           this.doctorBehaviour.next(doctor);
           this.storage.set(GetService._DOCTOR_KEY, doctor);
         },
@@ -87,6 +101,9 @@ export class GetService {
         if (data == null) {
           this.keycloakService.getCurrentUserDetails().then(func);
         } else {
+          // Setting is Retrived Using Doctor id , not with keycloak username
+          this.initDoctorSettings();
+          this.initPaymentSettings();
           this.doctorBehaviour.next(data);
         }
       });
@@ -148,7 +165,7 @@ export class GetService {
       string,
       Map<string, SessionInfoDTO[]>
     > = new Map();
-    localSessionsMapMap.set(GetService._SESSIONS_KEY ,localSessionMap);
+    localSessionsMapMap.set(GetService._SESSIONS_KEY , localSessionMap);
 
     const sessionGetter = (user, i, workplace) => {
       this.doctorService
@@ -157,7 +174,7 @@ export class GetService {
           console.log(workplace.name, sessions);
           this.pageSession = sessions.totalPages;
 
-          const sessionsArray = localSessionsMapMap.get(GetService._SESSIONS_KEY)
+          const sessionsArray = localSessionsMapMap.get(GetService._SESSIONS_KEY);
 
           let workplaceSessions = [];
 
@@ -203,6 +220,62 @@ export class GetService {
     }
   }
 
+  public initDoctorSettings(fromRestAPI?: boolean) {
+    const func = (uid: any) => {
+      this.doctorService.getDoctorSettings(uid)
+      .subscribe(doctorSettings => {
+        this.doctorSettingBehaviour.next(doctorSettings);
+        this.storage.set(GetService._DOCTOR_SETTINGS_KEY , doctorSettings);
+      });
+    };
+
+    if (fromRestAPI !== undefined && fromRestAPI === true) {
+      this.storage.get(GetService._DOCTOR_KEY).then((data:DoctorDTO) => {
+        console.log('getting Settings for ' , data);
+        func(data.doctorSettingsId);
+      });
+    } else {
+      this.storage.get(GetService._DOCTOR_SETTINGS_KEY).then(data => {
+        if (data == null) {
+          this.storage.get(GetService._DOCTOR_KEY).then(doc => {
+            console.log('getting Settings for ' , doc);
+            func(doc.doctorSettingsId);
+          });
+        } else {
+          this.doctorSettingBehaviour.next(data);
+        }
+      });
+    }
+  }
+
+  public initPaymentSettings(fromRestAPI?: boolean) {
+    const func = (uid: any) => {
+      this.doctorService.getPaymentSettings(uid)
+      .subscribe(paymentSettings => {
+        this.paymentSettingsBehaviour.next(paymentSettings);
+        this.storage.set(GetService._PAYMENT_SETTINGS_KEY , paymentSettings);
+      });
+    };
+
+    if (fromRestAPI !== undefined && fromRestAPI === true) {
+      this.storage.get(GetService._DOCTOR_KEY).then((data: DoctorDTO) => {
+        console.log('getting Payment Settings for ' , data);
+        func(data.paymentSettingsId);
+      });
+    } else {
+      this.storage.get(GetService._PAYMENT_SETTINGS_KEY).then(data => {
+        if (data == null) {
+          this.storage.get(GetService._DOCTOR_KEY).then(doc => {
+            console.log('getting payment Settings for ' , doc);
+            func(doc.paymentSettingsId);
+          });
+        } else {
+          this.paymentSettingsBehaviour.next(data);
+        }
+      });
+    }
+  }
+
   // Getters
 
   public getDoctor() {
@@ -219,6 +292,14 @@ export class GetService {
 
   public getSessions() {
     return this.sessionsBehaviour;
+  }
+
+  public getDoctorSettings() {
+    return this.doctorSettingBehaviour;
+  }
+
+  public getPaymentSettings() {
+    return this.paymentSettingsBehaviour;
   }
 
   public getResetFlag() {

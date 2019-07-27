@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-item>
-      <ion-input #searchInput placeholder="Search For Symptoms"
+      <ion-input #searchInput placeholder="Search For diagnosis"
         (ionChange)="findMatching('diagnosis')"
         [(ngModel)]="inputValueDiagnosis"
       ></ion-input>
@@ -22,7 +22,7 @@
 <ion-footer text-center>
   <ion-badge
     *ngFor="let sDiagnosis of selectedDiagnosis"
-    (click)="removeDiagnosis(diagnosis)"
+    (click)="removeDiagnosis(sDiagnosis)"
   >
     <ion-label>
       {{ sDiagnosis.abbr }}

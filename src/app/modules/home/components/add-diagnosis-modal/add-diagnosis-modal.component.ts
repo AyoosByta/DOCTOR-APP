@@ -1,6 +1,6 @@
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonInput } from '@ionic/angular';
 import { DIAGNOSIS } from './../../../../core/mocks/diagnosis.mock';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-add-diagnosis-modal',
@@ -17,18 +17,22 @@ export class AddDiagnosisModalComponent implements OnInit {
 
   selectedDiagnosis = [];
 
+  @ViewChild('searchInput') searchInput: IonInput;
+
   constructor(private modalController: ModalController) {}
 
   ngOnInit() {}
 
   selectDiagnosis(d) {
     this.selectedDiagnosis.push(d);
+    this.searchInput.setFocus();
     // // this.tmpOptionsDiagnosis = [];
     // this.inputValueDiagnosis = '';
   }
 
   removeDiagnosis(d) {
-    this.selectedDiagnosis = this.selectedDiagnosis.filter(val => val != d);
+    this.selectedDiagnosis = this.selectedDiagnosis.filter(val => val !== d);
+    this.searchInput.setFocus();
   }
 
   findMatching(type) {

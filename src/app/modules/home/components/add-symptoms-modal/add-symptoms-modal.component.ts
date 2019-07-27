@@ -1,5 +1,6 @@
+import { IonInput, ModalController } from '@ionic/angular';
 import { SYMPTOMS } from 'src/app/core/mocks/symptoms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-add-symptoms-modal',
@@ -16,18 +17,29 @@ export class AddSymptomsModalComponent implements OnInit {
 
   selectedSymptoms = [];
 
-  constructor() {}
+  @ViewChild('searchInput') searchInput: IonInput;
+
+  constructor(
+    private modalController: ModalController
+  ) {}
 
   ngOnInit() {}
 
   selectSymptoms(s) {
     this.selectedSymptoms.push(s);
+    this.searchInput.setFocus();
     // this.tmpOptionsSymptoms = [];
     // this.inputValueSymptoms = '';
   }
 
   removeSymptoms(s) {
     this.selectedSymptoms = this.selectedSymptoms.filter(val => val !== s);
+    this.searchInput.setFocus();
+  }
+
+
+  save() {
+    this.modalController.dismiss(this.selectedSymptoms);
   }
 
   findMatching(type) {

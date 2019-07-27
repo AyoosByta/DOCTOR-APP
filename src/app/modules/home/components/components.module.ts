@@ -1,3 +1,4 @@
+import { AddSymptomsModalComponent } from './add-symptoms-modal/add-symptoms-modal.component';
 import { AddDiagnosisModalComponent } from './add-diagnosis-modal/add-diagnosis-modal.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -19,21 +20,24 @@ import { AddPrescriptionComponent } from './add-prescription/add-prescription.co
     AddMedicalSummaryComponent,
     PrescriptionListComponent,
     AddPrescriptionComponent,
-    AddDiagnosisModalComponent
+    AddDiagnosisModalComponent,
+    AddSymptomsModalComponent
   ],
   exports: [
     ConsultationComponent,
     AddParamedicalComponent,
     AddMedicalSummaryComponent,
     PrescriptionListComponent,
-    AddPrescriptionComponent
+    AddPrescriptionComponent,
+    AddSymptomsModalComponent
   ],
   entryComponents: [
     AddParamedicalComponent,
     AddMedicalSummaryComponent,
     PrescriptionListComponent,
     AddPrescriptionComponent,
-    AddDiagnosisModalComponent
+    AddDiagnosisModalComponent,
+    AddSymptomsModalComponent
   ]
 })
 export class ComponentsModule {}

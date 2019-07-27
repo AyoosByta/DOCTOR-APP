@@ -1,5 +1,6 @@
+import { DoctorSettingsDTO } from './../../api/models/doctor-settings-dto';
 import { QualificationDTO } from './../../api/models/qualification-dto';
-import { WorkPlaceDTO, SessionInfoDTO } from 'src/app/api/models';
+import { WorkPlaceDTO, SessionInfoDTO, PaymentSettingsDTO } from 'src/app/api/models';
 import { DoctorDTO } from './../../api/models/doctor-dto';
 import { Injectable } from '@angular/core';
 import { QueryResourceService , CommandResourceService} from 'src/app/api/services';
@@ -60,6 +61,14 @@ export class DoctorService {
     return this.commandResourceService.updateWorkPlaceUsingPUT(workplace);
   }
 
+  updateDoctorSettings(doctorSettingsDTO: DoctorSettingsDTO) {
+    return this.commandResourceService.updateDoctorSettingUsingPUT(doctorSettingsDTO);
+  }
+
+  updatePaymentSettings(paymentSettings: PaymentSettingsDTO) {
+    return this.commandResourceService.updatePaymentSettingUsingPUT(paymentSettings);
+  }
+
   // Delete Methods
 
   deleteQualification(id) {
@@ -94,5 +103,13 @@ export class DoctorService {
       workPlaceId: wid,
       page:pageNumber
     });
+  }
+
+  getDoctorSettings(uid: number) {
+    return this.queryResourceService.findDoctorSettingsUsingGET(uid);
+  }
+
+  getPaymentSettings(uid: number) {
+    return this.queryResourceService.findPaymentSettingsUsingGET(uid);
   }
 }
