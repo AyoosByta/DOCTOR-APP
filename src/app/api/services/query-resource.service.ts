@@ -19,7 +19,6 @@ import { PdfDTO } from '../models/pdf-dto';
 import { QualificationDTO } from '../models/qualification-dto';
 import { PageOfReview } from '../models/page-of-review';
 import { PageOfSessionInfo } from '../models/page-of-session-info';
-import { SessionInfoDTO } from '../models/session-info-dto';
 import { DataResponse } from '../models/data-response';
 
 /**
@@ -30,7 +29,8 @@ import { DataResponse } from '../models/data-response';
 })
 class QueryResourceService extends __BaseService {
   static readonly findSlotsUsingGETPath = '/api/queries/Dr-slots/{date}/{doctorId}';
-  static readonly getAppointmentsByDoctorIdUsingGETPath = '/api/queries/appointments/{searchTerm}';
+  static readonly getAppointmentsByDoctorIdUsingGETPath = '/api/queries/appointments/{doctorId}';
+  static readonly getAppointmentsByDoctorIdAndDateUsingGETPath = '/api/queries/appointments/{doctorId}/{date}';
   static readonly findContactInfoUsingGETPath = '/api/queries/contact-infos/{searchTerm}';
   static readonly findDoctorSettingsUsingGETPath = '/api/queries/doctor-settings/{id}';
   static readonly findDoctorUsingGETPath = '/api/queries/doctor/{searchTerm}';
@@ -106,7 +106,7 @@ class QueryResourceService extends __BaseService {
   /**
    * @param params The `QueryResourceService.GetAppointmentsByDoctorIdUsingGETParams` containing the following parameters:
    *
-   * - `searchTerm`: searchTerm
+   * - `doctorId`: doctorId
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    *
@@ -126,7 +126,7 @@ class QueryResourceService extends __BaseService {
     if (params.page != null) __params = __params.set('page', params.page.toString());
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/queries/appointments/${params.searchTerm}`,
+      this.rootUrl + `/api/queries/appointments/${params.doctorId}`,
       __body,
       {
         headers: __headers,
@@ -144,7 +144,7 @@ class QueryResourceService extends __BaseService {
   /**
    * @param params The `QueryResourceService.GetAppointmentsByDoctorIdUsingGETParams` containing the following parameters:
    *
-   * - `searchTerm`: searchTerm
+   * - `doctorId`: doctorId
    *
    * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    *
@@ -156,6 +156,68 @@ class QueryResourceService extends __BaseService {
    */
   getAppointmentsByDoctorIdUsingGET(params: QueryResourceService.GetAppointmentsByDoctorIdUsingGETParams): __Observable<PageOfAppointment> {
     return this.getAppointmentsByDoctorIdUsingGETResponse(params).pipe(
+      __map(_r => _r.body as PageOfAppointment)
+    );
+  }
+
+  /**
+   * @param params The `QueryResourceService.GetAppointmentsByDoctorIdAndDateUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  getAppointmentsByDoctorIdAndDateUsingGETResponse(params: QueryResourceService.GetAppointmentsByDoctorIdAndDateUsingGETParams): __Observable<__StrictHttpResponse<PageOfAppointment>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+    (params.sort || []).forEach(val => {if (val != null) __params = __params.append('sort', val.toString())});
+    if (params.size != null) __params = __params.set('size', params.size.toString());
+    if (params.page != null) __params = __params.set('page', params.page.toString());
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/queries/appointments/${params.doctorId}/${params.date}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<PageOfAppointment>;
+      })
+    );
+  }
+  /**
+   * @param params The `QueryResourceService.GetAppointmentsByDoctorIdAndDateUsingGETParams` containing the following parameters:
+   *
+   * - `doctorId`: doctorId
+   *
+   * - `date`: date
+   *
+   * - `sort`: Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   *
+   * - `size`: Size of a page
+   *
+   * - `page`: Page number of the requested page
+   *
+   * @return OK
+   */
+  getAppointmentsByDoctorIdAndDateUsingGET(params: QueryResourceService.GetAppointmentsByDoctorIdAndDateUsingGETParams): __Observable<PageOfAppointment> {
+    return this.getAppointmentsByDoctorIdAndDateUsingGETResponse(params).pipe(
       __map(_r => _r.body as PageOfAppointment)
     );
   }
@@ -662,7 +724,7 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  findAllSesionInfoUsingGETResponse(params: QueryResourceService.FindAllSesionInfoUsingGETParams): __Observable<__StrictHttpResponse<Array<SessionInfoDTO>>> {
+  findAllSesionInfoUsingGETResponse(params: QueryResourceService.FindAllSesionInfoUsingGETParams): __Observable<__StrictHttpResponse<PageOfSessionInfo>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
@@ -683,7 +745,7 @@ class QueryResourceService extends __BaseService {
     return this.http.request<any>(req).pipe(
       __filter(_r => _r instanceof HttpResponse),
       __map((_r) => {
-        return _r as __StrictHttpResponse<Array<SessionInfoDTO>>;
+        return _r as __StrictHttpResponse<PageOfSessionInfo>;
       })
     );
   }
@@ -700,9 +762,9 @@ class QueryResourceService extends __BaseService {
    *
    * @return OK
    */
-  findAllSesionInfoUsingGET(params: QueryResourceService.FindAllSesionInfoUsingGETParams): __Observable<Array<SessionInfoDTO>> {
+  findAllSesionInfoUsingGET(params: QueryResourceService.FindAllSesionInfoUsingGETParams): __Observable<PageOfSessionInfo> {
     return this.findAllSesionInfoUsingGETResponse(params).pipe(
-      __map(_r => _r.body as Array<SessionInfoDTO>)
+      __map(_r => _r.body as PageOfSessionInfo)
     );
   }
 
@@ -1149,9 +1211,40 @@ module QueryResourceService {
   export interface GetAppointmentsByDoctorIdUsingGETParams {
 
     /**
-     * searchTerm
+     * doctorId
      */
-    searchTerm: string;
+    doctorId: string;
+
+    /**
+     * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     */
+    sort?: Array<string>;
+
+    /**
+     * Size of a page
+     */
+    size?: number;
+
+    /**
+     * Page number of the requested page
+     */
+    page?: number;
+  }
+
+  /**
+   * Parameters for getAppointmentsByDoctorIdAndDateUsingGET
+   */
+  export interface GetAppointmentsByDoctorIdAndDateUsingGETParams {
+
+    /**
+     * doctorId
+     */
+    doctorId: string;
+
+    /**
+     * date
+     */
+    date: string;
 
     /**
      * Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
