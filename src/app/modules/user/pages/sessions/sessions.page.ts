@@ -25,8 +25,8 @@ export class SessionsPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getWorkplaces();
-    this.getSessions();
+      this.getWorkplaces();
+      this.getSessions();
   }
 
   getWorkplaces() {
@@ -40,7 +40,7 @@ export class SessionsPage implements OnInit {
     this.getService.getSessions().subscribe(sessionsMap => {
       console.log('Got Sessions');
       if (sessionsMap.get('sessions') !== undefined) {
-      this.sessionsMap = sessionsMap.get('sessions');
+       this.sessionsMap = sessionsMap.get('sessions');
       }
     });
   }

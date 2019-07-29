@@ -168,6 +168,7 @@ export class GetService {
     localSessionsMapMap.set(GetService._SESSIONS_KEY , localSessionMap);
 
     const sessionGetter = (user, i, workplace) => {
+      
       this.doctorService
         .getDoctorSessions(user.preferred_username, workplace.id, i)
         .subscribe(sessions => {

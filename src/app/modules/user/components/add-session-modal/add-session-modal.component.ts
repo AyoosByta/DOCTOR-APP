@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { WorkPlaceDTO, SessionInfoDTO } from 'src/app/api/models';
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/core/services/post.service';
+import { DAY_FULL_NAME } from 'src/app/core/mocks/day.list';
 
 @Component({
   selector: 'app-add-session-modal',
@@ -16,7 +17,6 @@ export class AddSessionModalComponent implements OnInit {
   ];
 
   availabelMonths: string[] = [];
-
 
   dayNumber;
 

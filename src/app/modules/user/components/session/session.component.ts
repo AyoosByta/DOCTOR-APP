@@ -26,11 +26,27 @@ export class SessionComponent implements OnInit, OnChanges {
   currentDayFullName = '';
   dayNames: string[] = DAY;
 
+  monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  availabelMonths: string[] = [];
+
   constructor(
     private modalController: ModalController
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.findAvailabelMonths();
+  }
+
+  findAvailabelMonths() {
+    const mnth = new Date().getMonth();
+    for (let i = mnth; i < (mnth + 3); i++ ) {
+      this.availabelMonths.push(this.monthNames[i]);
+    }
+  }
+
 
   ngOnChanges(changes: SimpleChanges) {
     this.showSessionForDay('Sun');
@@ -58,7 +74,7 @@ export class SessionComponent implements OnInit, OnChanges {
   async addSessionsModal() {
     const modal = await this.modalController.create({
       component: AddSessionModalComponent,
-      componentProps: {workplace: this.workplace , dayNumber: this.dayNames.indexOf(this.currentDay) + 1}
+      componentProps: {workplace: this.workplace , dayNumber: this.dayNames.indexOf(this.currentDay) + 1,day: this.currentDay}
     });
     modal.present();
   }

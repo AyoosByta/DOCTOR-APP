@@ -16,8 +16,10 @@ export class LoginPage implements OnInit {
   username: string;
   password: string;
 
-  constructor(private keycloakService: KeycloakService, private util: Util,
-    private getService:GetService,
+  constructor(
+    private keycloakService: KeycloakService, 
+    private util: Util,
+    private getService: GetService,
     private resetService: ResetService) {}
 
   ngOnInit() {
