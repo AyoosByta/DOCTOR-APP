@@ -40,7 +40,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.x.x",
     "angular-oauth2-oidc": "^5.0.2",
     "blob-util": "^2.0.2",
-    "cordova": "^8.0.0",
+    "cordova": "^11.0.0",
     "cordova-android": "8.0.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-calendar": "^5.1.4",
